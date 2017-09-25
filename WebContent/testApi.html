@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<body>
+<button id="getParams">学校数据</button>
+<button id="getpeople">人脉信息录入统计</button>
+<button id="getInstitution">机构信息录入统计</button>
+
+<button id="getParams02">各地区统计信息</button>
+<br><br>
+<button id="getParams03">学校-新增测试</button>
+<button id="getParams04">学校-搜索测试</button>
+<button id="getParams05">学校-修改测试</button>
+<button id="getParams06">学校-删除测试</button>
+<button id="getParams07">学校-详情测试</button>
+<br><br>
+<button id="getParams08">学校审核-插入</button>
+<button id="getParams09">学校-测试</button>
+<button id="getParams10">学校-测试</button>
+<button id="getParams11">学校-测试</button>
+<br><br>
+<button id="getParams21">机构-新增测试</button>
+<button id="getParams22">机构-搜索测试</button>
+<button id="getParams05">机构-修改测试</button>
+<button id="getParams06">机构-删除测试</button>
+<button id="getParams07">机构-详情测试</button>
+<br><br>
+<input type="text" id="schoolName"><button id="getParams20">检查学校是否重复</button>
+
+<script>
+  $('#getParams').click(function () {
+
+	  $.ajax({
+		    type : "get",
+		    async:false,
+
+		    url : "http://data.xinxueshuo.cn:80/nsi-0.8/Admin_api?whereFrom=Staff_MonthlyCount_school&Month_Time_Key=2017-08",
+// 		    url : "http://localhost:8080/nsi-0.8/School_api?whereFrom=test&OnePageNum=3",	    		
+// 		    url : "http://localhost:8080/nsi-0.8/School_api?whereFrom=count&",
+// 		    url : "http://127.0.0.1:8080/nsi-0.8/School_api?whereFrom=testEchart&City_searchKey=北京",		
+		    dataType : "jsonp",//数据类型为jsonp  
+		    jsonp: "Callback",//服务端用于接收callback调用的function名的参数  
+		    success : function(data){
+		        console.log(data);
+		        $("#testshow").html(JSON.stringify(data))
+		    },
+		    error:function(){
+		        alert('fail');
+		    }
+		});
+  })
+  
+//   人脉信息录入统计
+   $('#getpeople').click(function () {
+	  $.ajax({
+		    type : "get",
+		    async:false,
+		    url : "http://localhost:8080/nsi-0.8/Admin_api?whereFrom=Staff_MonthlyCount_people&Month_Time_Key=2017-08",
+		    dataType : "jsonp",//数据类型为jsonp  
+		    jsonp: "Callback",//服务端用于接收callback调用的function名的参数  
+		    success : function(data){
+		        console.log(data);
+		        $("#testshow").html(JSON.stringify(data))
+		    },
+		    error:function(){
+		        alert('fail');
+		    }
+		});
+  })
+  
+  //   机构信息录入统计
+   $('#getInstitution').click(function () {
+	  $.ajax({
+		    type : "get",
+		    async:false,
+		    url : "http://localhost:8080/nsi-0.8/Admin_api?whereFrom=Staff_MonthlyCount_institution&Month_Time_Key=2017-08",
+		    dataType : "jsonp",//数据类型为jsonp  
+		    jsonp: "Callback",//服务端用于接收callback调用的function名的参数  
+		    success : function(data){
+		        console.log(data);
+		        $("#testshow").html(JSON.stringify(data))
+		    },
+		    error:function(){
+		        alert('fail');
+		    }
+		});
+  })
+</script>
+
+<script>
+  $('#getParams02').click(function () {
+
+	  $.ajax({
+		    type : "get",
+		    async:false,
+
+// 		    url : "http://localhost:8080/nsi-0.8/School_api?whereFrom=test&OnePageNum=3",		    		
+// 		    url : "http://localhost:8080/nsi-0.8/School_api?whereFrom=count&",
+// 		    url : "http://127.0.0.1:8080/nsi-0.8/School_api?whereFrom=testEchart&City_searchKey=北京",	
+		    url : "http://127.0.0.1:8080/nsi-0.8/School_api?whereFrom=detail&School_Name=3e国际学校",		
+		    dataType : "jsonp",//数据类型为jsonp  
+		    jsonp: "Callback",//服务端用于接收callback调用的function名的参数  
+		    success : function(data){
+		        console.log(data);
+		        $("#testshow").html(JSON.stringify(data))
+		    },
+		    error:function(){
+		        alert('fail');
+		    }
+		});
+  })
+</script>
+
+<script>
+// 新增测试
+  $('#getParams03').click(function () {
+	  $.ajax({
+		    type : "get",
+		    async:false,
+		    url : "http://127.0.0.1:8080/nsi-0.9/School_api?whereFrom=insert",		
+		    dataType : "jsonp",//数据类型为jsonp  
+		    jsonp: "Callback",//服务端用于接收callback调用的function名的参数  
+		    data:{
+		    	"member_sign":2,
+		    	
+		    	"School_name":"测试003",
+		    	"School_EnglishName":001,
+		    	"School_properties":001,
+		    	"Areas":001,
+		    	"Areas02":001,
+		    	"Areas03":001,
+		    	"Founded_time":001,
+		    	"OperationState":001,
+		    	"School_system":001,
+		    	"Tuition":001,
+		    	"Website":001,
+		    	"Telephone":001,
+		    	"Inter_Course_Founded_time":001,
+		    	"Course":001,
+		    	"Authentication":001,
+		    	"Course_evaluation":001,
+		    	"Student_Num":001,
+		    	"Student_Capacity":001,
+		    	"Graduated_Stu_Num":001,
+		    	"Stu_Dominant_nationality":001,
+		    	"Stu_Year_Investment":001,
+		    	"Club_Num":001,
+		    	"President_Country":001,
+		    	"Staff_Num":001,
+		    	"Teacher_Num":001,
+		    	"Foreign_Teacher_num":001,
+		    	"Teacher_Year_Investment":001,
+		    	"Teacher_Retention":001,
+		    	"Teacher_Salary":001,
+		    	"Teacher_Stu_ratio":001,		   
+		    	"Covered_Area":001,
+		    	"Built_Area":001,
+		    	"Hardware":001,
+		    	"Investment":001,
+		    	"Remark":001,
+		    	"Load_People":001,
+		    },
+		    success : function(data){
+		        console.log(data);
+		        $("#testshow").html(JSON.stringify(data))
+		    },
+		    error:function(){
+		        alert('fail');
+		    }
+		});
+  })
+</script>
+
+<script>
+// 搜索测试
+  $('#getParams04').click(function () {
+	  $.ajax({
+		    type : "get",
+		    async:false,
+		    url : "http://127.0.0.1:8080/nsi-0.9/School_api?whereFrom=search&School_searchKey=学校",		
+		    dataType : "jsonp",//数据类型为jsonp  
+		    jsonp: "Callback",//服务端用于接收callback调用的function名的参数  
+		    success : function(data){
+		        console.log(data);
+		        $("#testshow").html(JSON.stringify(data))
+		    },
+		    error:function(){
+		        alert('fail');
+		    }
+		});
+  })
+</script>
+
+<script>
+// 审核新增
+  $('#getParams08').click(function () {
+	  $.ajax({
+		    type : "get",
+		    async:false,
+		    url : "http://127.0.0.1:8080/nsi-0.9/School_api?whereFrom=verify_insert",		
+		    dataType : "jsonp",//数据类型为jsonp  
+		    jsonp: "Callback",//服务端用于接收callback调用的function名的参数  
+		    data:{
+		    	"School_ID":1
+		    },
+		    success : function(data){
+		        console.log(data);
+		        $("#testshow").html(JSON.stringify(data))
+		    },
+		    error:function(){
+		        alert('fail');
+		    }
+		});
+  })
+</script>
+
+
+<script>
+// 检查学校是否重复
+  $('#getParams20').click(function () {
+	  $.ajax({
+		    type : "get",
+		    async:false,
+		    url : "http://127.0.0.1:8080/nsi-0.9/School_api?whereFrom=Check_SchoolName&SchoolName=安徒生国际幼中心",		
+		    dataType : "jsonp",//数据类型为jsonp  
+		    jsonp: "Callback",//服务端用于接收callback调用的function名的参数  
+		    data:{
+		    	"School_ID":1
+		    },
+		    success : function(data){
+		        console.log(data);
+		        $("#testshow").html(JSON.stringify(data))
+		    },
+		    error:function(){
+		        alert('fail');
+		    }
+		});
+  })
+</script>
+
+<!-- 机构测试 -------------------------------------------------- -->
+
+<script>
+// 搜索测试
+  $('#getParams22').click(function () {
+	  $.ajax({
+		    type : "get",
+		    async:false,
+		    url : "http://127.0.0.1:8080/nsi-0.9/Institution_api?whereFrom=search&Institution_searchKey=学",		
+		    dataType : "jsonp",//数据类型为jsonp  
+		    jsonp: "Callback",//服务端用于接收callback调用的function名的参数  
+		    success : function(data){
+		        console.log(data);
+		        $("#testshow").html(JSON.stringify(data))
+		    },
+		    error:function(){
+		        alert('fail');
+		    }
+		});
+  })
+</script>
+
+
+	<br><br><br>
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title">返回内容</h3>
+		</div>
+		<div class="panel-body">
+			<h5 id="testshow">空</h5>
+		</div>
+	</div>
+
+<object style="border:0px" type="text/x-scriptlet" data="EchartShow01.html" width=100% height=800></object>
+</body>
+</html>
