@@ -488,10 +488,16 @@ public class School_api extends HttpServlet{
 	    	int countAllRS = 0;
 	    	
 	    	StringBuffer StringBuffer = new StringBuffer("SELECT * from NSI_SCHOOL_data WHERE 1=1");
+	    	
+	    	System.out.println("---------------------------------school api:WF======AdvancedSearchCount：01"+Founded_time);
+	    	
 //			成立时间不为 0 且 不为空
 			if(Founded_time.length()!=0 && !Founded_time.equals("0")) {
-				StringBuffer.append(" AND ( 1=0 or Founded_time = "+Founded_time+" )"); 	
+			
+				System.out.println("---------------------------------school api:WF======AdvancedSearchCount：02");
+				StringBuffer.append(" AND ( 1=0 or Founded_time = "+Founded_time+" )"); 			    	
 			}
+			System.out.println("---------------------------------school api:WF======AdvancedSearchCount：03");
 //			数组01不为空
 			if(!Arrays.equals(area, null34)){
 				StringBuffer.append(" AND ( 1=0");
@@ -586,11 +592,10 @@ public class School_api extends HttpServlet{
 				 }
 				StringBuffer.append(")");
 				}
+			System.out.println("---------------------------------school api:WF======AdvancedSearchCount：04");
 			
 			StringBuffer.append(" order by CONVERT(School_name USING gb2312)");
 
-//			 order by CONVERT(School_name USING gb2312) limit "+pageNumX+","+OnePageNum+"
-//			System.out.println("school：搜索语句："+StringBuffer);
 			countAllRS=DB.count(StringBuffer.toString());
 			
 			String back="{\"countAllRS\":\""+countAllRS+"\"}";
