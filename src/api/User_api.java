@@ -277,11 +277,7 @@ public class User_api extends HttpServlet{
 				    	list=User_DB.Search(sql);
 				    	User_TureName=list.get(0).getUser_TureName();
 			    	}    	
-//			    	List<User_model> list = new ArrayList<User_model>();
-//			    	String sql="SELECT * FROM nsi_user WHERE UserName='"+UserName+"'";
-//			    	list=User_DB.Search(sql);
-//			    	String User_TureName=list.get(0).getUser_TureName();
-			    	
+
 			    	String sign="feedback";
 			    	String sql02="INSERT INTO NSI_log (sign,index01,index02,index03,index04,index05) "
 						+ "VALUES ('"+sign+"','"+User_TureName+"','"+SubmitDate+"','"+content+"','"+Contact+"','"+UserName+"')";
@@ -294,6 +290,24 @@ public class User_api extends HttpServlet{
 			    	response.setContentType("text/html;charset=UTF-8");  
 			    	response.getWriter().write(Callback+"("+back+")");
 			    	System.out.println(Callback+"("+back+")");
+			    	
+//			    	临时接口：删除测试用邮箱账号 1453 
+			    }else if(whereFrom.equals("DeleteTestMail")){
+//			    	谁，什么时候，反馈了什么，联系方式，本地联系方式。
+			    	String UserName=request.getParameter("UserName");
+
+			    	String sql="DELETE FROM nsi_user WHERE UserName ='"+UserName+"';";    	
+					DB.Delete(sql);	
+//					成功
+			    	String back="{msg:1}";
+			    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
+			    	response.setContentType("text/html;charset=UTF-8");  
+			    	response.getWriter().write(Callback+"("+back+")");
+			    	System.out.println("user_api:删除了测试用户邮箱："+UserName);
+
+					    	
+				}else {
+					System.out.println("User_api:没有收到WF参数!!!");
 				}
 				
 	    }

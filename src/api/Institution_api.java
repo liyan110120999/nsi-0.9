@@ -16,8 +16,7 @@ import com.google.gson.Gson;
 import Institution.Institution_DB;
 import Institution.Institution_model;
 import people.DB;
-import school.School_DB;
-import school.School_model;
+
 
 @WebServlet("/Institution_api")
 public class Institution_api extends HttpServlet{
@@ -71,7 +70,7 @@ public class Institution_api extends HttpServlet{
 //	    	2、需不需要审核？
 //	    	3、插入新增标记
 //	    	4、执行SQL
-	    	System.out.println("新增用户等级member_sign:"+member_sign00);
+	    	System.out.println("新增用户等级member_sign:"+member_sign00+"label:"+Label);
 	    	int member_sign=Integer.parseInt(member_sign00);
 	    	String sql=null;
 	
@@ -82,17 +81,16 @@ public class Institution_api extends HttpServlet{
 			 if(member_sign<=7){
 //				 注册用户需审核
 				sql="REPLACE INTO NSI_institution_data_verify (Name, Founded_time, Areas, Areas02, Areas03, Type, Label, Website, Service, "
-						+ "ContactPosition, ContactName, ContactPhone, ContactMail, Introduction, Investment, Remark, ServedSchool,load_people, load_time)"
+						+ "ContactPosition, ContactName, ContactPhone, ContactMail, Introduction, Investment, Remark, ServedSchool,load_people, load_time, VerifySign)"
 						+ "VALUES ('"+Name+"','"+Founded_time+"','"+Areas+"','"+Areas02+"','"+Areas03+"','"+Type+"','"+Label+"','"+Website+"','"+Service+"' "
-						+ " ,'"+ContactPosition+"','"+ContactName+"','"+ContactPhone+"','"+ContactMail+"','"+Introduction+"','"+Investment+"','"+Remark+"','"+ServedSchool+"','"+load_people+"','"+SubmitDate+"')";	 
-				
-				 
+						+ " ,'"+ContactPosition+"','"+ContactName+"','"+ContactPhone+"','"+ContactMail+"','"+Introduction+"','"+Investment+"','"+Remark+"','"+ServedSchool+"','"+load_people+"','"+SubmitDate+"','"+VerifySign+"')";	 
+							 
 			}else{
 //				内部员工免审核	
 				sql="INSERT INTO NSI_institution_data (Name, Founded_time, Areas, Areas02, Areas03, Type, Label, Website, Service, "
-						+ "ContactPosition, ContactName, ContactPhone, ContactMail, Introduction, Investment, Remark, ServedSchool,load_people, load_time)"
+						+ "ContactPosition, ContactName, ContactPhone, ContactMail, Introduction, Investment, Remark, ServedSchool,load_people, load_time, VerifySign)"
 						+ "VALUES ('"+Name+"','"+Founded_time+"','"+Areas+"','"+Areas02+"','"+Areas03+"','"+Type+"','"+Label+"','"+Website+"','"+Service+"' "
-						+ " ,'"+ContactPosition+"','"+ContactName+"','"+ContactPhone+"','"+ContactMail+"','"+Introduction+"','"+Investment+"','"+Remark+"','"+ServedSchool+"','"+load_people+"','"+SubmitDate+"')";	 
+						+ " ,'"+ContactPosition+"','"+ContactName+"','"+ContactPhone+"','"+ContactMail+"','"+Introduction+"','"+Investment+"','"+Remark+"','"+ServedSchool+"','"+load_people+"','"+SubmitDate+"','"+VerifySign+"')";	 
 				
 			}
 			
@@ -120,7 +118,7 @@ public class Institution_api extends HttpServlet{
 	    	response.getWriter().write(Callback+"("+back+")");
 	    	System.out.println(Callback+"("+back+")");
     		
-	    	
+//	    	待测试
     	}else if(whereFrom.equals("alter")){
     		System.out.println("institution_api:WF======alter");
 //			判断用户标志
@@ -155,22 +153,23 @@ public class Institution_api extends HttpServlet{
 	    	String SubmitDate = formatter.format(currentTime);
 	    	
 //	    	修改标记
-	    	int VerifySign=12;
+	    	int VerifySign=22;
 	    	String sql=null;
 			Gson gson = new Gson();  
 //			????--------------------------------------------------------------------------
-			List<School_model> list = new ArrayList<School_model>();
+			List<Institution_model> list = new ArrayList<Institution_model>();
 						
 			if(member_sign<=7){			
 //				插入到审核数据表
-				sql="";
-				
+				sql="REPLACE INTO NSI_institution_data_verify (Id, Name, Founded_time, Areas, Areas02, Areas03, Type, Label, Website, Service, ContactPosition, ContactName, ContactPhone, ContactMail, Introduction, Investment, Remark, ServedSchool,load_people, load_time,VerifySign)"
+					+" VALUES (  '"+alter_old_Institution_id+"','"+Name+"','"+Founded_time+"','"+Areas+"','"+Areas02+"','"+Areas03+"','"+Type+"','"+Label+"','"+Website+"','"+Service+"','"+ContactPosition+"','"+ContactName+"','"+ContactPhone+"','"+ContactMail+"','"+Introduction+"','"+Investment+"','"+Remark+"','"+ServedSchool+"','"+load_people+"','"+SubmitDate+"','"+VerifySign+"' )";
 				DB.Insert(sql);
 			}else{
 //				内部员工免审核 更新到数据表
-				sql="";
+				sql=" UPDATE NSI_institution_data SET  Id ='"+alter_old_Institution_id+"',Name ='"+Name+"',Founded_time ='"+Founded_time+"',Areas ='"+Areas+"',Areas02 ='"+Areas02+"',Areas03 ='"+Areas03+"',Type ='"+Type+"',Label ='"+Label+"',Website ='"+Website+"',Service ='"+Service+"',ContactPosition ='"+ContactPosition+"',ContactName ='"+ContactName+"',ContactPhone ='"+ContactPhone+"',ContactMail ='"+ContactMail+"',"
+						+ " Introduction ='"+Introduction+"',Investment ='"+Investment+"',Remark ='"+Remark+"',ServedSchool ='"+ServedSchool+"',load_people ='"+load_people+"',load_time ='"+SubmitDate+"',VerifySign ='"+VerifySign+"', ";
 				
-				list=School_DB.alter(sql);	
+				list=Institution_DB.alter(sql);	
 			}
 			String back="{msg:1}";
 	    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
@@ -239,7 +238,142 @@ public class Institution_api extends HttpServlet{
 	    	String Callback = request.getParameter("Callback");//客户端请求参数
 	    	response.setContentType("text/html;charset=UTF-8");  
 	    	response.getWriter().write(Callback+"("+jsonList+")");
-    	}
-    	
+
+	//    	新增信息审核  待测试
+		}else if(whereFrom.equals("verify_insert")){
+	//		1、接受参数 ID
+	//		2、机构审核表中，复制该ID条目，到数据表
+	//		3、修改审核表标记 p21
+	//		3、返回成功
+			System.out.println("institution api:WF=====verify_insert");	
+	    	Gson gson = new Gson();   	
+	    	String institution_Id00=request.getParameter("institution_Id");
+	    	int institution_Id=Integer.parseInt(institution_Id00);
+	    	
+	    	System.out.println("接受的参数："+institution_Id);
+	    	
+		    	String sql="INSERT INTO nsi_institution_data ( Name, Founded_time, Areas, Areas02, Areas03, Type, Label, Website, Service, ContactPosition, ContactName, ContactPhone, ContactMail, Introduction, Investment, Remark, ServedSchool, load_people, load_time, BatchInput_Sign, VerifySign ) "
+		    	
+		    			+ " SELECT  `Name`,`Founded_time`,`Areas`,`Areas02`,`Areas03`,`Type`,`Label`,`Website`,`Service`,`ContactPosition`,`ContactName`,`ContactPhone`,`ContactMail`,`Introduction`,`Investment`,`Remark`,`ServedSchool`,`load_people`,`load_time`,`BatchInput_Sign`,`VerifySign` "
+		    			+ " FROM nsi_institution_data_verify where Id = '"+institution_Id+"' ";
+		    	
+		    	String sql02="UPDATE nsi_institution_data_verify SET VerifySign='p21' where Id= '"+institution_Id+"' ;";
+		    			    
+	//    	事务：两条SQL同时 执行。有错误回滚
+	    	int i=DB.TransactionInsert(sql, sql02);
+	//		成功
+	    	String back="{msg:"+i+"}";
+	    	System.out.println("institution_api:审核插入结果："+i+" ");
+	    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
+	    	response.setContentType("text/html;charset=UTF-8");  
+	    	response.getWriter().write(Callback+"("+back+")");
+	   
+	//    	审核插入 不通过
+		}else if(whereFrom.equals("verify_No_insert")){
+	//		1、接受参数 ID
+	//		2、学校审核表中，复制该ID条目，到数据表
+	//		3、修改审核表标记 n21
+	//		3、返回成功
+			System.out.println("institution api:WF=====verify_insert");	
+	    	Gson gson = new Gson();   	
+	    	String institution_Id00=request.getParameter("institution_Id");
+	    	int institution_Id=Integer.parseInt(institution_Id00);
+	    	int i=-2;
+	    			    	
+		    	String sql="UPDATE nsi_institution_data_verify SET VerifySign='n21' where Id= '"+institution_Id+"' ;";    	
+			try {
+				DB.Insert(sql);
+				i=1;
+			} catch (Exception e) {
+				i=-1;
+			}
+		    	
+	//		成功
+	    	String back="{msg:"+i+"}";
+	    	System.out.println("institution_api:审核插入结果："+i+" ");
+	    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
+	    	response.setContentType("text/html;charset=UTF-8");  
+	    	response.getWriter().write(Callback+"("+back+")");	
+	     
+	    	
+	    	
+//	    	修改信息审核 wait for test
+		}else if(whereFrom.equals("verify_alter")){
+//			1、接受参数 ID
+//			2、机构审核表中，复制该ID条目，到数据表
+//			3、修改 审核表中的该数据的标记
+//			3、返回成功
+			System.out.println("Institution api:WF=====verify_insert");	
+	    	Gson gson = new Gson();   	
+	    	String institution_Id00=request.getParameter("institution_Id");
+	    	int institution_Id=Integer.parseInt(institution_Id00);
+	    	
+	    	int i=00;
+	       	
+	    	String sql=" REPLACE into nsi_institution_data ( `Id`,`Name`,`Founded_time`,`Areas`,`Areas02`,`Areas03`,`Type`,`Label`,`Website`,`Service`,`ContactPosition`,`ContactName`,`ContactPhone`,`ContactMail`,`Introduction`,`Investment`,`Remark`,`ServedSchool`,`load_people`,`load_time`,`VerifySign` )"
+	    				+"SELECT `Id`,`Name`,`Founded_time`,`Areas`,`Areas02`,`Areas03`,`Type`,`Label`,`Website`,`Service`,`ContactPosition`,`ContactName`,`ContactPhone`,`ContactMail`,`Introduction`,`Investment`,`Remark`,`ServedSchool`,`load_people`,`load_time`,`VerifySign` "
+	    				+"FROM nsi_institution_data_verify where Id = '"+institution_Id+"'  ";
+	    	
+	    	String sql02="UPDATE nsi_institution_data_verify SET VerifySign='p22' where Id= '"+institution_Id+"' ;";
+//	    	事务：两条SQL同时 执行。有错误回滚
+	    	i=DB.TransactionInsert(sql, sql02);
+//			I 为执行结果
+	    	System.out.println("verify_alter的msg值为："+i);
+	    	String back="{msg:"+i+"}";
+	    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
+	    	response.setContentType("text/html;charset=UTF-8");  
+	    	response.getWriter().write(Callback+"("+back+")");
+	    
+//	    	审核修改 不通过 wait for test 
+		}else if(whereFrom.equals("verify_No_alter")){
+//			1、接受参数 ID
+//			2、机构审核表中，复制该ID条目，到数据表
+//			3、修改审核表标记 p22
+//			3、返回成功
+			System.out.println("institution api:WF=====verify_No_alter");	
+	    	Gson gson = new Gson();   	
+	    	String institution_Id00=request.getParameter("institution_Id");
+	    	int institution_Id=Integer.parseInt(institution_Id00);
+	    	int i=-2;
+	    			    	
+		    	String sql="UPDATE nsi_institution_data_verify SET VerifySign='n22' where Id= '"+institution_Id+"' ;";    	
+			try {
+				DB.Insert(sql);
+				i=1;
+			} catch (Exception e) {
+				i=-1;
+			}
+		    	
+//			成功
+	    	String back="{msg:"+i+"}";
+	    	System.out.println("institution_api:审核插入结果："+i+" ");
+	    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
+	    	response.setContentType("text/html;charset=UTF-8");  
+	    	response.getWriter().write(Callback+"("+back+")");	
+	    
+//	    	检查机构名是否重复
+		}else if(whereFrom.equals("Check_InstitutionName")){	
+			
+	    	String Name=request.getParameter("Name");
+			String sql="SELECT * FROM NSI_institution_data WHERE Name='"+Name+"' ";
+			System.out.println("检查机构是否存在："+Name);
+			int a=DB.count(sql);
+			int msg=-2;
+			if(a<1){
+				msg=1;
+			}else{
+				msg=-1;
+			}
+			
+			String back="{\"msg\":\""+msg+"\"}";
+			
+	    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
+	    	response.setContentType("text/html;charset=UTF-8");  
+	    	response.getWriter().write(Callback+"("+back+")");
+	    	
+	    	
+		}else {
+			System.out.println("institution_api:没有收到WF参数");
+		}
     }
 }

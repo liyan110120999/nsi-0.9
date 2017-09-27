@@ -350,7 +350,7 @@ public class School_api extends HttpServlet{
 //	    	空数组
 	    	String[] null4 = {"0","0","0","0"};
 	    	String[] null34 = {"0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
-			
+	    	String[] null17 = {"0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
 	    	System.out.println("地区："+area);
 //			分页参数 ：第几页、每页几个。默认值：1、20；
 			Integer pageNum = request.getParameter("pageNum") != null && !request.getParameter("pageNum").equals("") ? Integer.parseInt(request.getParameter("pageNum")) : 1;
@@ -424,16 +424,32 @@ public class School_api extends HttpServlet{
 					StringBuffer.append(")");
 					}
 				
-				if(!Arrays.equals(course, null4)){
+				if(!Arrays.equals(course, null17)){
 					StringBuffer.append(" AND ( 1=0");
 					for(int i = 0; i<course.length; i++)
 					 switch (course[i])
 					 {
 					  case "0": break;
-					  case "1": StringBuffer.append(" or Course like '%AP%'"); break;
-					  case "2": StringBuffer.append(" or Course like '%PYP%'"); break;
-					  case "3": StringBuffer.append(" or Course like '%IMYC%'"); break;
-					  case "4": StringBuffer.append(" or Course like '%A-LEVEL%'"); break;  
+					  case "1": StringBuffer.append(" or Course like '%IPC%'"); break;
+					  case "2": StringBuffer.append(" or Course like '%IMYC%'"); break;
+					  case "3": StringBuffer.append(" or Course like '%AP%'"); break;
+					  case "4": StringBuffer.append(" or Course like '%IB%'"); break;
+					  
+					  case "5": StringBuffer.append(" or Course like '%IBPYP%'"); break;
+					  case "6": StringBuffer.append(" or Course like '%IBMYP%'"); break;
+					  case "7": StringBuffer.append(" or Course like '%IBDP%'"); break;
+					  case "8": StringBuffer.append(" or Course like '%A-LEVEL%'"); break;
+					  case "9": StringBuffer.append(" or Course like '%IGCSE%'"); break;
+//					  少关键字检索
+					  case "10": StringBuffer.append(" or Course like '%蒙特%'"); break;
+					  case "11": StringBuffer.append(" or Course like '%美国%'"); break;
+					  case "12": StringBuffer.append(" or Course like '%澳%'"); break;
+					  
+					  case "13": StringBuffer.append(" or Course like '%澳洲VCE%'"); break;
+					  case "14": StringBuffer.append(" or Course like '%澳洲QCE%'"); break;
+					  case "15": StringBuffer.append(" or Course like '%澳洲WACE%'"); break;
+					  case "16": StringBuffer.append(" or Course like '%加拿大%'"); break;
+					  case "17": StringBuffer.append(" or Course like '%加拿大BC%'"); break;
 					  default: break;
 					 }
 					StringBuffer.append(")");
@@ -467,7 +483,8 @@ public class School_api extends HttpServlet{
 //	    	空数组
 	    	String[] null4 = {"0","0","0","0"};
 	    	String[] null34 = {"0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
-			
+	    	String[] null17 = {"0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
+	    	
 	    	int countAllRS = 0;
 	    	
 	    	StringBuffer StringBuffer = new StringBuffer("SELECT * from NSI_SCHOOL_data WHERE 1=1");
@@ -538,16 +555,33 @@ public class School_api extends HttpServlet{
 				StringBuffer.append(")");
 				}
 			
-			if(!Arrays.equals(course, null4)){
+			if(!Arrays.equals(course, null17)){
 				StringBuffer.append(" AND ( 1=0");
 				for(int i = 0; i<course.length; i++)
 				 switch (course[i])
 				 {
 				  case "0": break;
-				  case "1": StringBuffer.append(" or Course like '%AP%'"); break;
-				  case "2": StringBuffer.append(" or Course like '%PYP%'"); break;
-				  case "3": StringBuffer.append(" or Course like '%IMYC%'"); break;
-				  case "4": StringBuffer.append(" or Course like '%A-LEVEL%'"); break;  
+				  case "1": StringBuffer.append(" or Course like '%IPC%'"); break;
+				  case "2": StringBuffer.append(" or Course like '%IMYC%'"); break;
+				  case "3": StringBuffer.append(" or Course like '%AP%'"); break;
+				  case "4": StringBuffer.append(" or Course like '%IB%'"); break;
+				  
+				  case "5": StringBuffer.append(" or Course like '%IBPYP%'"); break;
+				  case "6": StringBuffer.append(" or Course like '%IBMYP%'"); break;
+				  case "7": StringBuffer.append(" or Course like '%IBDP%'"); break;
+				  case "8": StringBuffer.append(" or Course like '%A-LEVEL%'"); break;
+				  case "9": StringBuffer.append(" or Course like '%IGCSE%'"); break;
+//				  少关键字检索
+				  case "10": StringBuffer.append(" or Course like '%蒙特%'"); break;
+				  case "11": StringBuffer.append(" or Course like '%美国%'"); break;
+				  case "12": StringBuffer.append(" or Course like '%澳%'"); break;
+				  
+				  case "13": StringBuffer.append(" or Course like '%澳洲VCE%'"); break;
+				  case "14": StringBuffer.append(" or Course like '%澳洲QCE%'"); break;
+				  case "15": StringBuffer.append(" or Course like '%澳洲WACE%'"); break;
+				  case "16": StringBuffer.append(" or Course like '%加拿大%'"); break;
+				  case "17": StringBuffer.append(" or Course like '%加拿大BC%'"); break;
+			  
 				  default: break;
 				 }
 				StringBuffer.append(")");

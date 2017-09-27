@@ -46,7 +46,7 @@
 						</p>
 						<br><br>
 						<p>
-							 <a class="btn btn-primary btn-large" href="http://116.196.70.70:8080/nsi/user/login.html">登 录</a>
+							 <a class="btn btn-primary btn-large" href="http://data.xinxueshuo.cn/nsi/user/login.html">登 录</a>
 						</p>
 					</div>
 				</div>

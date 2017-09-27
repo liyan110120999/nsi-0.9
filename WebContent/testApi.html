@@ -32,6 +32,8 @@
 <button id="getParams07">机构-详情测试</button>
 <br><br>
 <input type="text" id="schoolName"><button id="getParams20">检查学校是否重复</button>
+<br><br>
+<button id="button31">人员-清除测试邮箱的注册</button>
 
 <script>
   $('#getParams').click(function () {
@@ -265,6 +267,27 @@
 		});
   })
 </script>
+
+<script>
+// 删除测试用户邮箱
+  $('#button31').click(function () {
+	  $.ajax({
+		    type : "get",
+		    async:false,
+		    url : "http://data.xinxueshuo.cn/nsi-0.9/User_api?whereFrom=DeleteTestMail&UserName=1453485414@qq.com",		
+		    dataType : "jsonp",//数据类型为jsonp  
+		    jsonp: "Callback",//服务端用于接收callback调用的function名的参数  
+		    success : function(data){
+		        console.log(data);
+		        $("#testshow").html(JSON.stringify(data))
+		    },
+		    error:function(){
+		        alert('fail');
+		    }
+		});
+  })
+</script>
+
 
 
 	<br><br><br>

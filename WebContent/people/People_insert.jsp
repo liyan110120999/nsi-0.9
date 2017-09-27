@@ -84,7 +84,12 @@
 </script>
 		<%     	//   获取session用户		     		
 			String username ="空";
-			
+		if(session.getAttribute("Session_user")==null){
+			//	 登录超时,跳转到login
+			response.sendRedirect("/nsi-0.9/login.jsp");
+		}else{
+			username = session.getAttribute("Session_user").toString();
+		}
 					//   获取当前时间
 				java.util.Date currentTime = new java.util.Date(); 
 		    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

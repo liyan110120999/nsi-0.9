@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,10 +13,9 @@ import javax.servlet.http.HttpSession;
 import model.Model;
 import entity.User;
 
+@WebServlet("/ServletControl")
 public class ServletControl extends HttpServlet {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	public ServletControl() {
@@ -44,18 +44,26 @@ public class ServletControl extends HttpServlet {
 				
 				session.setAttribute("Session_user",name);
 				session.setAttribute("Session_userMember_sign",member_sign);
-				response.sendRedirect("list.jsp");	
+//				response.sendRedirect("list.jsp");	
+//				人员入口
+				response.sendRedirect("/nsi-0.9/people/People_list.jsp");
+				
+				System.out.println("通过");
+				
 			}else{
 //		code验证没通过
 			request.setAttribute("loginResult",Codefal);	
 			request.getRequestDispatcher("login.jsp").forward(request, response);
+			
+				System.out.println("不通过01");
 			} 
 		}
 		else{
 //		用户验证没通过			
 			request.setAttribute("loginResult",Userfal);	
 			request.getRequestDispatcher("login.jsp").forward(request, response);
-			
+				
+				System.out.println("不通过02");
 			}
 		}
 	}

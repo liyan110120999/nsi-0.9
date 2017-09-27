@@ -24,7 +24,7 @@
 									 <a href="./SchoolCheck.jsp">学校 审核</a>
 								</li>
 								<li>
-									<a href="#">机构 审核</a>
+									<a href="./InstitutionCheck.jsp">机构 审核</a>
 								</li>
 																
 							</ul>
