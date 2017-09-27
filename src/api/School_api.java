@@ -492,7 +492,8 @@ public class School_api extends HttpServlet{
 	    	System.out.println("---------------------------------school api:WF======AdvancedSearchCount：01"+Founded_time);
 	    	
 //			成立时间不为 0 且 不为空
-			if(Founded_time.length()!=0 && !Founded_time.equals("0")) {
+//			if(Founded_time.length()!=0 && !Founded_time.equals("0")) {
+	    	if(Founded_time != null && Founded_time.length() <= 0 && !Founded_time.equals("0")) {
 			
 				System.out.println("---------------------------------school api:WF======AdvancedSearchCount：02");
 				StringBuffer.append(" AND ( 1=0 or Founded_time = "+Founded_time+" )"); 			    	
