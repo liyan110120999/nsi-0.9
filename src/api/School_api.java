@@ -150,7 +150,7 @@ public class School_api extends HttpServlet{
 		}else if(whereFrom.equals("delete")){
 			System.out.println("school api:WF=====delete");
 			
-	    	Gson gson = new Gson();   	
+//	    	Gson gson = new Gson();   	
 	    	String Id=request.getParameter("Id");
 	    			    	
 	    	String sql="DELETE FROM nsi_school_data WHERE Id ='"+Id+"';";    	
@@ -337,7 +337,7 @@ public class School_api extends HttpServlet{
 ///////////////////////////////////////////////////////////////////////////////////			
 //	    	高级搜索
 //	    	未修改
-		}else if(whereFrom.equals("AdvancedSearch")){
+}else if(whereFrom.equals("AdvancedSearch")){
 			
 			System.out.println("school api:WF======AdvancedSearch");		
 			Gson gson = new Gson();   	
@@ -360,7 +360,7 @@ public class School_api extends HttpServlet{
 			List<School_model> list = new ArrayList<School_model>();		
 			StringBuffer StringBuffer = new StringBuffer("SELECT * from NSI_SCHOOL_data WHERE 1=1");
 //				成立时间不为 0 且 不为空
-				if(Founded_time.length()!=0 && !Founded_time.equals("0")) {
+				if(Founded_time != null && Founded_time.length() > 1 && !Founded_time.equals("0")) {
 					StringBuffer.append(" AND ( 1=0 or Founded_time = "+Founded_time+" )"); 	
 				}
 //				地区数组不为空
@@ -433,18 +433,15 @@ public class School_api extends HttpServlet{
 					  case "1": StringBuffer.append(" or Course like '%IPC%'"); break;
 					  case "2": StringBuffer.append(" or Course like '%IMYC%'"); break;
 					  case "3": StringBuffer.append(" or Course like '%AP%'"); break;
-					  case "4": StringBuffer.append(" or Course like '%IB%'"); break;
-					  
+					  case "4": StringBuffer.append(" or Course like '%IB%'"); break;			  
 					  case "5": StringBuffer.append(" or Course like '%IBPYP%'"); break;
 					  case "6": StringBuffer.append(" or Course like '%IBMYP%'"); break;
 					  case "7": StringBuffer.append(" or Course like '%IBDP%'"); break;
 					  case "8": StringBuffer.append(" or Course like '%A-LEVEL%'"); break;
 					  case "9": StringBuffer.append(" or Course like '%IGCSE%'"); break;
-//					  少关键字检索
 					  case "10": StringBuffer.append(" or Course like '%蒙特%'"); break;
 					  case "11": StringBuffer.append(" or Course like '%美国%'"); break;
-					  case "12": StringBuffer.append(" or Course like '%澳%'"); break;
-					  
+					  case "12": StringBuffer.append(" or Course like '%澳%'"); break;			  
 					  case "13": StringBuffer.append(" or Course like '%澳洲VCE%'"); break;
 					  case "14": StringBuffer.append(" or Course like '%澳洲QCE%'"); break;
 					  case "15": StringBuffer.append(" or Course like '%澳洲WACE%'"); break;
@@ -493,7 +490,7 @@ public class School_api extends HttpServlet{
 	    	
 //			成立时间不为 0 且 不为空
 //			if(Founded_time.length()!=0 && !Founded_time.equals("0")) {
-	    	if(Founded_time != null && Founded_time.length() <= 0 && !Founded_time.equals("0")) {
+	    	if(Founded_time != null && Founded_time.length() > 1 && !Founded_time.equals("0")) {
 			
 				System.out.println("---------------------------------school api:WF======AdvancedSearchCount：02");
 				StringBuffer.append(" AND ( 1=0 or Founded_time = "+Founded_time+" )"); 			    	
@@ -571,18 +568,15 @@ public class School_api extends HttpServlet{
 				  case "1": StringBuffer.append(" or Course like '%IPC%'"); break;
 				  case "2": StringBuffer.append(" or Course like '%IMYC%'"); break;
 				  case "3": StringBuffer.append(" or Course like '%AP%'"); break;
-				  case "4": StringBuffer.append(" or Course like '%IB%'"); break;
-				  
+				  case "4": StringBuffer.append(" or Course like '%IB%'"); break;			  
 				  case "5": StringBuffer.append(" or Course like '%IBPYP%'"); break;
 				  case "6": StringBuffer.append(" or Course like '%IBMYP%'"); break;
 				  case "7": StringBuffer.append(" or Course like '%IBDP%'"); break;
 				  case "8": StringBuffer.append(" or Course like '%A-LEVEL%'"); break;
 				  case "9": StringBuffer.append(" or Course like '%IGCSE%'"); break;
-//				  少关键字检索
 				  case "10": StringBuffer.append(" or Course like '%蒙特%'"); break;
 				  case "11": StringBuffer.append(" or Course like '%美国%'"); break;
-				  case "12": StringBuffer.append(" or Course like '%澳%'"); break;
-				  
+				  case "12": StringBuffer.append(" or Course like '%澳%'"); break;			  
 				  case "13": StringBuffer.append(" or Course like '%澳洲VCE%'"); break;
 				  case "14": StringBuffer.append(" or Course like '%澳洲QCE%'"); break;
 				  case "15": StringBuffer.append(" or Course like '%澳洲WACE%'"); break;
@@ -599,12 +593,18 @@ public class School_api extends HttpServlet{
 
 			countAllRS=DB.count(StringBuffer.toString());
 			
-			String back="{\"countAllRS\":\""+countAllRS+"\"}";
-
-	    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
-	    	response.setContentType("text/html;charset=UTF-8");  
-	    	response.getWriter().write(Callback+"("+back+")");
+//			String back="{\"countAllRS\":\""+countAllRS+"\"}";
+//
+//	    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
+//	    	response.setContentType("text/html;charset=UTF-8");  
+//	    	response.getWriter().write(Callback+"("+back+")");
+		    	
+	    	String back="{countAllRS:"+countAllRS+"}";
+			String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
+			response.setContentType("text/html;charset=UTF-8");  
+			response.getWriter().write(Callback+"("+back+")");
 	
+		
 					  	
 //	    	测试echart数据 省份学校数量查询
 //	    	待修改

@@ -36,7 +36,7 @@ public class Admin_api extends HttpServlet{
 //    		2、得到员工姓名列表
 //    		3、遍历 列表 查询贡献量
     		
-    		System.out.println("school api:WF======Staff_MonthlyCount");		
+    		System.out.println("school api:WF======Staff_MonthlyCount_school");		
 	    	Gson gson = new Gson();   	
 	
 	    	String Month_Time_Key=request.getParameter("Month_Time_Key");

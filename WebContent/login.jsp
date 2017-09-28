@@ -82,16 +82,16 @@
                      	<span class="icon-bar"></span> 
                   	 	<span class="icon-bar"></span> 
 	                </button>  
-	                <a class="navbar-brand l-f24" href="#"><strong>新 学 说</strong></a>  
+	                <a class="navbar-brand l-f24" href="#"><strong>新 学 说后台</strong></a>  
 	            </div>  
 	            <div class="collapse navbar-collapse l-f20" id="example-navbar-collapse">  
 	                <ul class="nav navbar-nav navbar-right l-h-002">  
-		                <li><a href="#"><b>学 校</b></a></li>
-	                    <li><a href="#"><b>机 构</b></a></li>
-	                   	<li><a href="#"><b>人 员</b></a></li>
-	                    <li><a href="about.jsp"><b>关 于</b></a></li>
-	                    <li><a href="login.jsp" class="active-menu-item"><b>登 录</b></a></li>
-		                <li></li>
+<!-- 		                <li><a href="#"><b>新学说后台登录入口</b></a></li> -->
+<!-- 	                    <li><a href="#"><b>机 构</b></a></li> -->
+<!-- 	                   	<li><a href="#"><b>人 员</b></a></li> -->
+<!-- 	                    <li><a href="about.jsp"><b>关 于</b></a></li> -->
+<!-- 	                    <li><a href="login.jsp" class="active-menu-item"><b>登 录</b></a></li> -->
+<!-- 		                <li></li> -->
 	                </ul>  
 	            </div>  
 	        </div>  
@@ -174,7 +174,7 @@
 				<br>
 				<form role="form" name="loginform" action="ServletControl" method="post" style="padding: 15px;">
 					<div class="form-group">
-						 <label for="exampleInputEmail1" >用户名</label>
+						 <label for="exampleInputEmail1" >新学说后台登录</label>
 						 <input name="username" type="text" class="form-control" id="username" placeholder="请输入账号" />
 					</div>
 					<div class="form-group">

@@ -1,22 +1,29 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*" %>  
+<!DOCTYPE>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>员工贡献月统计</title>
 </head>
-	<link rel="stylesheet" href="https://cdn.bootcss.com/foundation/5.5.3/css/foundation.min.css">
-	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
-	<script src="https://cdn.bootcss.com/foundation/5.5.3/js/foundation.min.js"></script>
+	
+	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	
 	<script src="../assets/js/public.js"></script>
 <body>
-	<button id="getSchool">学校录入统计</button>
-	<button id="getpeople">人才录入统计</button>
-	<button id="getInstitution">机构录入统计</button>
+<!-- 导入顶栏 -->
+<jsp:include page="/Admin/header.jsp"/>
+
+	<button type="button" class="btn btn-primary" id="getSchool">学校录入统计</button>
+	<button type="button" class="btn btn-primary" id="getpeople">人才录入统计</button>
+	<button type="button" class="btn btn-primary" id="getInstitution">机构录入统计</button>
 	<h5 id="testshow">空</h5>
 
-<div class="responsive" >
-	<table class="table1" style="float:left;margin-left:20px;">
+<div class="table" >
+	<table class="table1" style="float:left;margin-left:20px; width:150px;">
 	  <thead>
 	    <tr>
 	      <th>姓名</th>
@@ -28,7 +35,7 @@
 	  </tbody>
 	</table>
 	
-	<table class="table2" style="float:left;margin-left:20px;">
+	<table class="table2" style="float:left;margin-left:20px;width:150px;">
 	  <thead>
 	    <tr>
 	      <th>姓名</th>
@@ -40,7 +47,7 @@
 	  </tbody>
 	</table>
 	
-	<table class="table3" style="float:left;margin-left:20px;">
+	<table class="table3" style="float:left;margin-left:20px; width:150px;">
 	  <thead>
 	    <tr>
 	      <th>姓名</th>
@@ -61,7 +68,7 @@
 		  $.ajax({
 			    type : "get",
 			    async:false,
-			    url : ApiUrl.address+"/Admin_api?whereFrom=Staff_MonthlyCount&Month_Time_Key=2017-09",	
+			    url : ApiUrl.address+"/Admin_api?whereFrom=Staff_MonthlyCount_school&Month_Time_Key=2017-09",	
 			    dataType : "jsonp",//数据类型为jsonp  
 			    jsonp: "Callback",//服务端用于接收callback调用的function名的参数  
 			    success : function(data){

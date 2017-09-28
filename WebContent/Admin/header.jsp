@@ -23,6 +23,7 @@
 								<li>
 									 <a href="./SchoolCheck.jsp">学校 审核</a>
 								</li>
+								<li class="divider"></li>
 								<li>
 									<a href="./InstitutionCheck.jsp">机构 审核</a>
 								</li>
@@ -36,9 +37,11 @@
 								<li>
 									 <a href="./addMailUser.jsp">添加联系人</a>
 								</li>
+								<li class="divider"></li>
 								<li>
 									<a href="./Mailuser_list.jsp">联系人列表</a>
 								</li>
+								<li class="divider"></li>
 								<li>
 									<a href="./WeeklyMail.jsp">发送邮件内容</a>
 								</li>													
@@ -51,19 +54,21 @@
 								<li>
 									 <a href="#">用户操作日志</a>
 								</li>
-								<li class="divider">
-								</li>
+								<li class="divider"></li>							
 								<li>
 									<a href="#">系统运行警告</a>
 								</li>
+								<li class="divider"></li>
 								<li>
-									<a href="#">用户反馈</a>
-								</li>						
+									<a href="./UserFeedback.jsp">用户反馈</a>
+								</li>
+								<li class="divider"></li>						
 								<li>
 									<a href="#">员工操作日志</a>
-								</li>							
+								</li>
+								<li class="divider"></li>						
 								<li>
-									<a href="#">功能05</a>
+									<a href="./EmployeeStatistics.jsp">员工月贡献统计</a>
 								</li>
 							</ul>
 						</li>

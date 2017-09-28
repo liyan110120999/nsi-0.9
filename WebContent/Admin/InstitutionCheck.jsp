@@ -208,7 +208,7 @@
 			<td><%=rs02.getString("Id")%></td>
 			<td><%=rs02.getString("Name")%></td>
 			<td><%=rs02.getString("Founded_time")%></td>
-			<td><%=rs02.getString("Areas")+rs.getString("Areas02")+rs.getString("Areas03")%></td>
+			<td><%=rs02.getString("Areas")+rs02.getString("Areas02")+rs02.getString("Areas03")%></td>
 			<td><%=rs02.getString("Type")%></td>
 			<td><%=rs02.getString("Label")%></td>
 			<td><%=rs02.getString("Service")%></td>
