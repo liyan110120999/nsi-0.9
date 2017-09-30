@@ -79,7 +79,7 @@ public class User_api extends HttpServlet{
 //					1、用户存不存在？
 //					2、权限标记位是否正确？
 //					3、校验和是否正确？
-					System.out.println("校验账号密码："+name+member_sign+UserVerifyCode);
+					System.out.println("校验账号密码："+name);
 					
 					Model model=new Model();
 					int verifyResult=model.UserVerify(name,member_sign,UserVerifyCode);
@@ -90,7 +90,7 @@ public class User_api extends HttpServlet{
 			    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
 			    	response.setContentType("text/html;charset=UTF-8");  
 			    	response.getWriter().write(Callback+"("+back+")");
-			    	System.out.println(Callback+"("+back+")");
+			    	
 //				新用户注册
 				}else if(whereFrom.equals("register")){
 					String Email=request.getParameter("Email");
@@ -256,7 +256,30 @@ public class User_api extends HttpServlet{
 			    	String Callback = request.getParameter("Callback");//客户端请求参数
 			    	response.setContentType("text/html;charset=UTF-8");  
 			    	response.getWriter().write(Callback+"("+jsonList+")");
+				
+//				登陆后修改密码
+				}else if(whereFrom.equals("ModifyPW")){
+//						1、获取用户名 2、查询该用户信息 3、
+					String UserName=request.getParameter("UserName");
+					String NewPassword=request.getParameter("NewPassword");
+					List<User_model> list = new ArrayList<User_model>();
+					int msg=-2;
 					
+					String sql="UPDATE NSI_user SET Password ='"+NewPassword+"' WHERE UserName='"+UserName+"' ";
+//					DB.alter(sql);	    	
+					try {
+						DB.alter(sql);
+						msg=1;
+					} catch (Exception e) {
+						msg=-1;
+					}
+									
+					String back="{\"msg\":\""+msg+"\"}";				
+			    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
+			    	response.setContentType("text/html;charset=UTF-8");  
+			    	response.getWriter().write(Callback+"("+back+")");
+			    	
+			    	
 //			    	用户反馈
 			    }else if(whereFrom.equals("feedback")){
 //			    	谁，什么时候，反馈了什么，联系方式，本地联系方式。

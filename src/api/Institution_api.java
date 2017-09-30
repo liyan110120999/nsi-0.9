@@ -227,10 +227,9 @@ public class Institution_api extends HttpServlet{
 			
 			Gson gson = new Gson();   	
 	    	String Id=request.getParameter("Id");
-	    	String sql=null;		
-		
+			
 			List<Institution_model> list = new ArrayList<Institution_model>();			
-			 sql="SELECT * from NSI_Institution_data WHERE ID= '"+Id+"' ";
+			String sql="SELECT * from NSI_Institution_data WHERE ID= '"+Id+"' ";
 			 
 			System.out.println("institution_api£ºdetailÓï¾ä£º»ú¹¹Id:"+Id);		
 			list=Institution_DB.Search(sql);
