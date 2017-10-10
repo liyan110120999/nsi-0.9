@@ -2,6 +2,7 @@ package user;
 
 import java.io.IOException;
 
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,6 +34,17 @@ public class Verify extends HttpServlet{
 		System.out.println("verify:"+verify);		
 		String sql="UPDATE nsi_user SET Member_sign='1' WHERE UserName='"+verify+"' and Member_sign<1 ";
 		DB.alter(sql);
+		
+//		测试 用户通知
+		try {
+			Mail.SendNotifyMail("1453485414@qq.com", "审核通过，您可以登录了");
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

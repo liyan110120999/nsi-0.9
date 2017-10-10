@@ -63,13 +63,23 @@ import people.DB;
 				String UserMail=request.getParameter("UserMail");
 				
 				System.out.println("register.java:收到邮箱链接"+registerCode+UserMail);
-				
+//				----------------------------------0 改为 1 注册即可通过-------------------------
 //				修改状态码
-				String sql="UPDATE nsi_user SET Member_sign='0' WHERE UserName='"+UserMail+"' ";
+				String sql="UPDATE nsi_user SET Member_sign='1' WHERE UserName='"+UserMail+"' ";
 				DB.alter(sql);
+				
+//				测试发送通知邮件
+				try {
+					Mail.SendNotifyMail("237450257@qq.com", "有新用户注册");
+				} catch (MessagingException e) {					
+					e.printStackTrace();
+				} catch (Exception e) {				
+					e.printStackTrace();
+				}
 				
 				request.getRequestDispatcher("/nsi-0.9/User/registerSuccess.jsp");
 				response.sendRedirect("/nsi-0.9/User/registerSuccess.jsp");
+				
 //				跳转到激活成功界面
 			}else if(request.getParameter("checkMail")!=null){
 				String checkMail=request.getParameter("checkMail");

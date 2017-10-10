@@ -35,6 +35,9 @@
 <br><br>
 <button id="button31">人员-清除测试邮箱的注册</button>
 
+<input type="text" id="towho">
+<input type="text" id="Template">
+<button id="button32">发送通知邮件</button>
 <script>
   $('#getParams').click(function () {
 
@@ -286,6 +289,25 @@
 		    }
 		});
   })
+  
+// 测试发送通知 邮件
+  $('#button32').click(function () {
+	  $.ajax({
+		    type : "get",
+		    async:false,
+		    url : "http://data.xinxueshuo.cn/nsi-0.9/User_api?whereFrom=DeleteTestMail&UserName=1453485414@qq.com",		
+		    dataType : "jsonp",//数据类型为jsonp  
+		    jsonp: "Callback",//服务端用于接收callback调用的function名的参数  
+		    success : function(data){
+		        console.log(data);
+		        $("#testshow").html(JSON.stringify(data))
+		    },
+		    error:function(){
+		        alert('fail');
+		    }
+		});
+  })
+  
 </script>
 
 

@@ -274,8 +274,8 @@ public class School_api extends HttpServlet{
 	    	Gson gson = new Gson();   	
 	    	String School_searchKey=request.getParameter("School_searchKey");
 	    	String sql=null;		
-			String sqlcount=null;
-			int countAllRS = 0;
+//			String sqlcount=null;
+//			int countAllRS = 0;
 			
 //			分页参数 ：第几页、每页几个。默认值：1、20；
 			Integer pageNum = request.getParameter("pageNum") != null && !request.getParameter("pageNum").equals("") ? Integer.parseInt(request.getParameter("pageNum")) : 1;
@@ -285,10 +285,10 @@ public class School_api extends HttpServlet{
 			
 			List<School_model> list = new ArrayList<School_model>();			
 			 sql="SELECT * from NSI_SCHOOL_data WHERE CONCAT(IFNULL(`Id`,''),IFNULL(`School_name`,''),IFNULL(`School_EnglishName`,''),IFNULL(`Areas`,''),IFNULL(`Areas02`,''),IFNULL(`Founded_time`,'')) like '%"+School_searchKey+"%' order by CONVERT(School_name USING gb2312) limit "+pageNumX+","+OnePageNum+"";
-			 sqlcount="SELECT * from NSI_SCHOOL_data WHERE CONCAT(IFNULL(`Id`,''),IFNULL(`School_name`,''),IFNULL(`School_EnglishName`,''),IFNULL(`Areas`,''),IFNULL(`Areas02`,''),IFNULL(`Founded_time`,'')) like '%"+School_searchKey+"%' order by CONVERT(School_name USING gb2312)";
+//			 sqlcount="SELECT * from NSI_SCHOOL_data WHERE CONCAT(IFNULL(`Id`,''),IFNULL(`School_name`,''),IFNULL(`School_EnglishName`,''),IFNULL(`Areas`,''),IFNULL(`Areas02`,''),IFNULL(`Founded_time`,'')) like '%"+School_searchKey+"%' order by CONVERT(School_name USING gb2312)";
 					
 			list=School_DB.Search(sql);
-			countAllRS=DB.count(sqlcount);
+//			countAllRS=DB.count(sqlcount);
 	    	String jsonList =gson.toJson(list);
 
 	    	String Callback = request.getParameter("Callback");//客户端请求参数
