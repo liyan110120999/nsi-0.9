@@ -50,6 +50,11 @@ public class People_servlet extends HttpServlet {
 			System.out.println("people-servlet:正在运行  页数： "+pageNum+"第一页数："+pageNumX);	
 			
 			if(whereFrom.equals("search")){
+				
+				
+
+				
+				
 				int insertcount = 0;
 				int countAllRS = 0;
 //				搜索选项		

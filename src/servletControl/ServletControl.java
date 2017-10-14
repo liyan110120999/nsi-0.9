@@ -46,9 +46,14 @@ public class ServletControl extends HttpServlet {
 				session.setAttribute("Session_userMember_sign",member_sign);
 //				response.sendRedirect("list.jsp");	
 //				人员入口
-				response.sendRedirect("/nsi-0.9/people/People_list.jsp");
+				if(member_sign>=8) {
+					response.sendRedirect("/nsi-0.9/people/People_list.jsp");
+					System.out.println("后台通过");
+				}else {
+					response.sendRedirect("/nsi-0.9/login.jsp");
+					System.out.println("后台低权限阻止通过");
+				}	
 				
-				System.out.println("通过");
 				
 			}else{
 //		code验证没通过

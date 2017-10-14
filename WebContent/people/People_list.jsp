@@ -130,6 +130,16 @@
 			username = session.getAttribute("Session_user").toString();
 		}
 		
+// 		8级以下用户阻止
+		if(session.getAttribute("Session_userMember_sign")==null){
+			String Session_userMember_sign=session.getAttribute("Session_userMember_sign").toString();
+			int a = Integer.parseInt(Session_userMember_sign);
+			System.out.print("用户权限级别："+a);
+			if(a<=7){
+				response.sendRedirect("/nsi-0.9/login.jsp");
+			}
+		}
+		
 // 		搜索关键字 session保存
 		String People_searchKey_session = null;
 		if(session.getAttribute("People_searchKey_session")!=null)	{    

@@ -70,7 +70,7 @@ import people.DB;
 				
 //				测试发送通知邮件
 				try {
-					Mail.SendNotifyMail("237450257@qq.com", "有新用户注册");
+					Mail.SendNotifyMail("237450257@qq.com", "有新用户注册: "+UserMail+"");
 				} catch (MessagingException e) {					
 					e.printStackTrace();
 				} catch (Exception e) {				

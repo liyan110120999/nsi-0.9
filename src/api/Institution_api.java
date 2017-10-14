@@ -194,7 +194,7 @@ public class Institution_api extends HttpServlet{
 			int pageNumX=(pageNum-1)*OnePageNum;
 			
 			List<Institution_model> list = new ArrayList<Institution_model>();			
-			 sql="SELECT * from NSI_Institution_data WHERE CONCAT(IFNULL(`Id`,''),IFNULL(`Name`,''),IFNULL(`Label`,''),IFNULL(`Areas`,''),IFNULL(`Areas02`,''),IFNULL(`Areas03`,''),IFNULL(`Type`,''),IFNULL(`Service`,'')) like '%"+Institution_searchKey+"%' order by CONVERT(Name USING gb2312) limit "+pageNumX+","+OnePageNum+"";
+			 sql="SELECT * from NSI_Institution_data WHERE CONCAT(IFNULL(`Id`,''),IFNULL(`Name`,''),IFNULL(`Label`,''),IFNULL(`Areas`,''),IFNULL(`Areas02`,''),IFNULL(`Areas03`,''),IFNULL(`Type`,''),IFNULL(`Service`,'')) like '%"+Institution_searchKey+"%' order by load_time DESC limit "+pageNumX+","+OnePageNum+"";
 //			 sqlcount="SELECT * from NSI_Institution_data WHERE CONCAT(IFNULL(`Id`,''),IFNULL(`Name`,''),IFNULL(`Label`,''),IFNULL(`Areas`,''),IFNULL(`Areas02`,''),IFNULL(`Areas03`,''),IFNULL(`Type`,''),IFNULL(`Service`,'')) like '%"+Institution_searchKey+"%' order by CONVERT(Name USING gb2312)";
 									
 			list=Institution_DB.Search(sql);
