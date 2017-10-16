@@ -27,7 +27,7 @@ public class Comment_api extends HttpServlet{
     	String whereFrom = null;
 		whereFrom = request.getParameter("whereFrom");
 		
-		
+//		初始评论列表
 	   if(whereFrom.equals("CommentList")){
 			System.out.println("Comment_api:WF======CommentList");			
 		 	Gson gson = new Gson();   	

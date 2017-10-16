@@ -71,7 +71,7 @@ public class talent_api extends HttpServlet{
 	    	response.setContentType("text/html;charset=UTF-8");  
 	    	response.getWriter().write(Callback+"("+back+")");
 	    			
-//    	上传简历 	
+//    	上传简历 
 		}else if(whereFrom.equals("UpResume")) {
 			System.out.println("WF=UpResume");
 			// 上传文件存储目录
@@ -136,6 +136,9 @@ public class talent_api extends HttpServlet{
 		                        // 保存文件到硬盘
 		                        item.write(storeFile);
 		                        i=1;
+//		                        修改 该用户nsi_talent表中的havaTalent字段为1
+		                        String sql="UPDATE nsi_talent SET HavaTalent = 1 WHERE UserMail='"+UserMail+"'; ";
+		                        DB.alter(sql);
 		                    }
 		                }
 		            }
@@ -144,6 +147,42 @@ public class talent_api extends HttpServlet{
 		            i=-1;
 		        }		        
 	//			成功
+		    	String back="{msg:"+i+"}";	
+		    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
+		    	response.setContentType("text/html;charset=UTF-8");  
+		    	response.getWriter().write(Callback+"("+back+")");
+
+//		    	判断用户是否上传了简历附件
+			}else if(whereFrom.equals("HavaTalent")) {
+				String UserMail=request.getParameter("UserMail");
+				String sql="select * from nsi_talent where UserMail ='"+UserMail+"'; ";
+//				结果数：
+				int i=DB.count(sql);
+				
+				if (i==0) {
+					i=-1;
+				}else{
+					i=1;
+					};
+				
+		    	String back="{msg:"+i+"}";	
+		    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
+		    	response.setContentType("text/html;charset=UTF-8");  
+		    	response.getWriter().write(Callback+"("+back+")");
+
+//		    	判断用户是否上传了简历附件
+			}else if(whereFrom.equals("HavaTalentAttachment")) {
+				String UserMail=request.getParameter("UserMail");
+				String sql="select * from nsi_talent where UserMail ='"+UserMail+"' AND HavaTalent = 1 ; ";
+//				结果数：
+				int i=DB.count(sql);
+				
+				if (i==0) {
+					i=-1;
+				}else{
+					i=1;
+					};
+				
 		    	String back="{msg:"+i+"}";	
 		    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
 		    	response.setContentType("text/html;charset=UTF-8");  
