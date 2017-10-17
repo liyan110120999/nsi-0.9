@@ -30,6 +30,9 @@
 																
 							</ul>
 						</li>
+						<li>
+							 <a href="./Talent.jsp">简历信息</a>				 
+						</li>
 						
 						<li class="dropdown">
 							 <a href="#" class="dropdown-toggle" data-toggle="dropdown">邮件周刊<strong class="caret"></strong></a>

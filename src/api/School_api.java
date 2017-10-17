@@ -285,10 +285,9 @@ public class School_api extends HttpServlet{
 			
 			List<School_model> list = new ArrayList<School_model>();			
 			 sql="SELECT * from NSI_SCHOOL_data WHERE CONCAT(IFNULL(`Id`,''),IFNULL(`School_name`,''),IFNULL(`School_EnglishName`,''),IFNULL(`Areas`,''),IFNULL(`Areas02`,''),IFNULL(`Founded_time`,'')) like '%"+School_searchKey+"%' order by Load_Time DESC limit "+pageNumX+","+OnePageNum+"";
-//			 sqlcount="SELECT * from NSI_SCHOOL_data WHERE CONCAT(IFNULL(`Id`,''),IFNULL(`School_name`,''),IFNULL(`School_EnglishName`,''),IFNULL(`Areas`,''),IFNULL(`Areas02`,''),IFNULL(`Founded_time`,'')) like '%"+School_searchKey+"%' order by CONVERT(School_name USING gb2312)";
-					
+//					
 			list=School_DB.Search(sql);
-//			countAllRS=DB.count(sqlcount);
+//		
 	    	String jsonList =gson.toJson(list);
 
 	    	String Callback = request.getParameter("Callback");//客户端请求参数

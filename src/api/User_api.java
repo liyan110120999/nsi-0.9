@@ -49,17 +49,22 @@ public class User_api extends HttpServlet{
 //					默认值为-2 表示没有该用户
 					int member_sign=-2;
 					int UserVerifyCode=000000;
-//					如果用户名密码和code都通过，跳转
-				
+					String User_TureName="空";
+//					如果用户名,密码都通过，			
 					if(model.checkUser(name, pwd)){									
 //						获取用户标志位
 						member_sign=model.queryByName(name).getMember_sign();
 						System.out.println("User_api:用户标志位："+member_sign);						
 						UserVerifyCode=name.length()*member_sign+987654;
+						
+						User_TureName =model.queryByName(name).getUser_TureName();
+//					账号密码错误
 					}else{
-						System.out.println("User_api:密码校验错误");			
+						System.out.println("User_api:密码校验错误");
+						UserVerifyCode=0;
+						User_TureName="0";
 					}
-					String User_TureName =model.queryByName(name).getUser_TureName();
+
 					Gson gson = new Gson();   	
 			
 					String back="{\"member_sign\":\""+member_sign+"\","

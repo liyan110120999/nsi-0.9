@@ -267,4 +267,58 @@ public class DB {
 		}
 		return countNum;
 	}
+	
+//	talent人才 搜索简历
+	public static List<Talent_model> SearchTalent(String sql)
+	{
+		List<Talent_model> list = new ArrayList<Talent_model>();
+		try
+		{	
+			Class.forName("com.mysql.jdbc.Driver");
+			String url = "jdbc:mysql://localhost:3306/NSI_DATABASE?useSSL=true";
+			String username = "root";
+			String password = "123456";
+
+			Connection conn = DriverManager.getConnection(url,username,password);
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			while(rs.next()){				
+				Talent_model talent_model = new Talent_model();
+				
+				talent_model.setId(rs.getInt("Id"));
+				talent_model.setSex(rs.getString("Sex"));
+				talent_model.setPhone(rs.getString("Phone"));
+				talent_model.setMail(rs.getString("Mail"));
+				talent_model.setEducation(rs.getString("Education"));
+				talent_model.setMajor(rs.getString("Major"));
+				talent_model.setNowWorkplace(rs.getString("NowWorkplace"));
+				talent_model.setWorkYear(rs.getString("WorkYear"));
+				talent_model.setExpectWorkPlace(rs.getString("ExpectWorkPlace"));
+				talent_model.setExpectWorkPosition(rs.getString("ExpectWorkPosition"));
+				talent_model.setExpectSalary(rs.getString("ExpectSalary"));
+				talent_model.setOther(rs.getString("Other"));
+				talent_model.setWorkExperience(rs.getString("WorkExperience"));
+				talent_model.setEducationBackground(rs.getString("EducationBackground"));
+				talent_model.setTrainingBackground(rs.getString("TrainingBackground"));
+				talent_model.setPublic(rs.getString("Public"));
+				talent_model.setHavaTalent(rs.getString("HavaTalent"));
+				talent_model.setUserMail(rs.getString("UserMail"));
+				talent_model.setLoad_time(rs.getString("Load_time"));
+				
+				list.add(talent_model);
+			}
+			rs.last();
+            //关闭结果集,语句
+            rs.close();
+            stmt.close();
+            conn.close();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			System.out.println("DB.java:人才搜索sql异常");	
+		}
+		return list;
+	}
 }

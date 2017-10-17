@@ -166,8 +166,8 @@ public class Institution_api extends HttpServlet{
 				DB.Insert(sql);
 			}else{
 //				内部员工免审核 更新到数据表
-				sql=" UPDATE NSI_institution_data SET  Id ='"+alter_old_Institution_id+"',Name ='"+Name+"',Founded_time ='"+Founded_time+"',Areas ='"+Areas+"',Areas02 ='"+Areas02+"',Areas03 ='"+Areas03+"',Type ='"+Type+"',Label ='"+Label+"',Website ='"+Website+"',Service ='"+Service+"',ContactPosition ='"+ContactPosition+"',ContactName ='"+ContactName+"',ContactPhone ='"+ContactPhone+"',ContactMail ='"+ContactMail+"',"
-						+ " Introduction ='"+Introduction+"',Investment ='"+Investment+"',Remark ='"+Remark+"',ServedSchool ='"+ServedSchool+"',load_people ='"+load_people+"',load_time ='"+SubmitDate+"',VerifySign ='"+VerifySign+"', ";
+				sql="UPDATE NSI_institution_data SET Name ='"+Name+"',Founded_time ='"+Founded_time+"',Areas ='"+Areas+"',Areas02 ='"+Areas02+"',Areas03 ='"+Areas03+"',Type ='"+Type+"',Label ='"+Label+"',Website ='"+Website+"',Service ='"+Service+"',ContactPosition ='"+ContactPosition+"',ContactName ='"+ContactName+"',ContactPhone ='"+ContactPhone+"',ContactMail ='"+ContactMail+"',"
+						+ " Introduction ='"+Introduction+"',Investment ='"+Investment+"',Remark ='"+Remark+"',ServedSchool ='"+ServedSchool+"',load_people ='"+load_people+"',load_time ='"+SubmitDate+"',VerifySign ='"+VerifySign+"' WHERE Id ='"+alter_old_Institution_id+"'; ";
 				
 				list=Institution_DB.alter(sql);	
 			}

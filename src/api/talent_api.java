@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,7 +17,12 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.google.gson.Gson;
+
 import people.DB;
+import people.Talent_model;
+import school.School_model;
+import sun.security.util.Length;
 
 @WebServlet("/talent_api")
 public class talent_api extends HttpServlet{
@@ -73,7 +79,7 @@ public class talent_api extends HttpServlet{
 	    			
 //    	上传简历 
 		}else if(whereFrom.equals("UpResume")) {
-			System.out.println("WF=UpResume");
+			System.out.println("talent api:WF======UpResume上传简历");
 			// 上传文件存储目录
 //		    final String UPLOAD_DIRECTORY = "upload";	 
 		    // 上传配置
@@ -127,8 +133,10 @@ public class talent_api extends HttpServlet{
 		                    	
 //		                    	获取上传文件名,FormatName为文件格式
 		                    	String fileFormat=item.getName();
+		                    	//FormatName带点；FormatName02不带点
 		                    	String FormatName = fileFormat.substring(fileFormat.lastIndexOf("."));
-		                		                    	
+		                    	String FormatName02 = fileFormat.substring(fileFormat.lastIndexOf(".")+1);
+		                    	
 		                        String filePath = uploadPath + UserMail+User_TureName+FormatName;
 		                        File storeFile = new File(filePath);                                           
 		                        // 在控制台输出文件的上传路径                     
@@ -137,7 +145,7 @@ public class talent_api extends HttpServlet{
 		                        item.write(storeFile);
 		                        i=1;
 //		                        修改 该用户nsi_talent表中的havaTalent字段为1
-		                        String sql="UPDATE nsi_talent SET HavaTalent = 1 WHERE UserMail='"+UserMail+"'; ";
+		                        String sql="UPDATE nsi_talent SET HavaTalent = '"+FormatName02+"' WHERE UserMail='"+UserMail+"'; ";
 		                        DB.alter(sql);
 		                    }
 		                }
@@ -152,41 +160,55 @@ public class talent_api extends HttpServlet{
 		    	response.setContentType("text/html;charset=UTF-8");  
 		    	response.getWriter().write(Callback+"("+back+")");
 
-//		    	判断用户是否上传了简历附件
+//		    	判断用户是否上传了简历&判断用户是否上传了简历附件
 			}else if(whereFrom.equals("HavaTalent")) {
 				String UserMail=request.getParameter("UserMail");
-				String sql="select * from nsi_talent where UserMail ='"+UserMail+"'; ";
+				String sql01="select * from nsi_talent where UserMail ='"+UserMail+"'; ";
+				String sql02="select * from nsi_talent where UserMail ='"+UserMail+"' AND HavaTalent != '0' ; ";
 //				结果数：
-				int i=DB.count(sql);
+				int i01=DB.count(sql01);
+				String i02="-2";
 				
-				if (i==0) {
-					i=-1;
+				List<Talent_model> list = new ArrayList<Talent_model>();			
+				list=DB.SearchTalent(sql02);
+				Talent_model ob1 = list.get(0);
+				String i002=ob1.getHavaTalent();
+				System.out.println("i02的值："+i002);
+				if (i01==0) {
+					i01=-1;
 				}else{
-					i=1;
+					i01=1;
 					};
-				
-		    	String back="{msg:"+i+"}";	
+					
+				if (i002.length()<=1) {
+					i02="-1";
+				}else{
+					i02=i002;
+					};	
+							
+		    	String back="{msg01:"+i01+",msg02:\""+i02+"\"}";	
 		    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
 		    	response.setContentType("text/html;charset=UTF-8");  
 		    	response.getWriter().write(Callback+"("+back+")");
 
-//		    	判断用户是否上传了简历附件
-			}else if(whereFrom.equals("HavaTalentAttachment")) {
-				String UserMail=request.getParameter("UserMail");
-				String sql="select * from nsi_talent where UserMail ='"+UserMail+"' AND HavaTalent = 1 ; ";
-//				结果数：
-				int i=DB.count(sql);
+//		    未完成
+//		    	搜索
+			}else if(whereFrom.equals("search")) {
+				System.out.println("talent api:WF======search");
+
+				Gson gson = new Gson();   	
+		    	String Talent_searchKey=request.getParameter("Talent_searchKey");
+		
+		    	
+//				分页参数 ：第几页、每页几个。默认值：1、20；
+				Integer pageNum = request.getParameter("pageNum") != null && !request.getParameter("pageNum").equals("") ? Integer.parseInt(request.getParameter("pageNum")) : 1;
+				Integer OnePageNum = request.getParameter("OnePageNum") != null && !request.getParameter("OnePageNum").equals("") ? Integer.parseInt(request.getParameter("OnePageNum")) : 20;
+				int pageNumX=(pageNum-1)*OnePageNum;
 				
-				if (i==0) {
-					i=-1;
-				}else{
-					i=1;
-					};
-				
-		    	String back="{msg:"+i+"}";	
-		    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
-		    	response.setContentType("text/html;charset=UTF-8");  
-		    	response.getWriter().write(Callback+"("+back+")");
+
+				List<School_model> list = new ArrayList<School_model>();	
+//				String sql="SELECT * from NSI_SCHOOL_data WHERE CONCAT(IFNULL(`Id`,''),IFNULL(`School_name`,''),IFNULL(`School_EnglishName`,''),IFNULL(`Areas`,''),IFNULL(`Areas02`,''),IFNULL(`Founded_time`,'')) like '%"+School_searchKey+"%' order by Load_Time DESC limit "+pageNumX+","+OnePageNum+"";
+//					
 			}
     }
 
