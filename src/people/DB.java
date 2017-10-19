@@ -2,6 +2,8 @@ package people;
 import java.sql.*;
 import java.util.*;
 import javax.sql.*;
+
+import subject.Subject_model;
 public class DB {
 	
 	
@@ -318,6 +320,56 @@ public class DB {
 		{
 			e.printStackTrace();
 			System.out.println("DB.java:人才搜索sql异常");	
+		}
+		return list;
+	}
+	
+//	项目 搜索
+	public static List<Subject_model> SearchSubject(String sql)
+	{
+		List<Subject_model> list = new ArrayList<Subject_model>();
+		try
+		{	
+			Class.forName("com.mysql.jdbc.Driver");
+			String url = "jdbc:mysql://localhost:3306/NSI_DATABASE?useSSL=true";
+			String username = "root";
+			String password = "123456";
+
+			Connection conn = DriverManager.getConnection(url,username,password);
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			while(rs.next()){				
+				Subject_model subject_model = new Subject_model();
+				
+				subject_model.setId(rs.getInt("Id"));
+				subject_model.setSubjectName(rs.getString("SubjectName"));
+				subject_model.setAreas(rs.getString("Areas"));
+				subject_model.setAreas02(rs.getString("Areas02"));
+				subject_model.setAreas03(rs.getString("Areas03"));
+				subject_model.setCompany(rs.getString("Company"));
+				subject_model.setSubjectLabel(rs.getString("SubjectLabel"));
+				subject_model.setName(rs.getString("Name"));
+				subject_model.setPhone(rs.getString("Phone"));
+				subject_model.setMail(rs.getString("Mail"));
+				subject_model.setSubjectIntroduction(rs.getString("SubjectIntroduction"));
+				subject_model.setDetailInstitution(rs.getString("DetailInstitution"));
+				subject_model.setRequirement(rs.getString("Requirement"));
+				subject_model.setUserMail(rs.getString("UserMail"));
+				subject_model.setLoad_time(rs.getString("Load_time"));
+			
+				list.add(subject_model);
+			}
+			rs.last();
+            //关闭结果集,语句
+            rs.close();
+            stmt.close();
+            conn.close();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			System.out.println("DB.java:项目搜索sql异常");	
 		}
 		return list;
 	}
