@@ -65,7 +65,7 @@ import people.DB;
 				System.out.println("register.java:收到邮箱链接"+registerCode+UserMail);
 //				----------------------------------0 改为 1 注册即可通过-------------------------
 //				修改状态码
-				String sql="UPDATE nsi_user SET Member_sign='1' WHERE UserName='"+UserMail+"' ";
+				String sql="UPDATE nsi_user SET Member_sign='3' WHERE UserName='"+UserMail+"' ";
 				DB.alter(sql);
 				
 //				测试发送通知邮件
