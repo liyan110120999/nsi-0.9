@@ -171,8 +171,14 @@ public class talent_api extends HttpServlet{
 				
 				List<Talent_model> list = new ArrayList<Talent_model>();			
 				list=DB.SearchTalent(sql02);
-				Talent_model ob1 = list.get(0);
-				String i002=ob1.getHavaTalent();
+				
+				String i002="0";
+				try {
+					Talent_model ob1 = list.get(0);
+					i002=ob1.getHavaTalent();
+				} catch (Exception e) {			
+				}
+					
 				System.out.println("i02µÄÖµ£º"+i002);
 				if (i01==0) {
 					i01=-1;
