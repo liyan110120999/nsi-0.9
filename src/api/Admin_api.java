@@ -1,7 +1,9 @@
 package api;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -151,6 +153,35 @@ public class Admin_api extends HttpServlet{
 	    	String Callback = request.getParameter("Callback");//客户端请求参数
 	    	response.setContentType("text/html;charset=UTF-8");  
 	    	response.getWriter().write(Callback+"("+jsonList+")");
+
+	    	
+//	    注册用户统计	
+	    }else if(whereFrom.equals("RegisterPeopleCount")){	    	
+			System.out.println("Admin api:WF======RegisterPeopleCount");		
+			
+//			当前时间
+				java.util.Date currentTime = new java.util.Date(); 
+		    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	    	String SubmitDate = formatter.format(currentTime);
+//	    	昨天日期
+		    	Calendar cal = Calendar.getInstance();
+		    	cal.add(Calendar.DATE, -1);
+	    	String Yesterday = new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime());
+	    			
+			String sqlcount01="SELECT * from NSI_user WHERE `Load_time`= '"+SubmitDate+"' ;";
+			String sqlcount02="SELECT * from NSI_user WHERE `Load_time`= '"+Yesterday+"' ;";
+			String sqlcount03="SELECT * from NSI_user ;";
+				
+			int countAllRS01=DB.count(sqlcount01);
+			int countAllRS02=DB.count(sqlcount02);
+			int countAllRS03=DB.count(sqlcount03);
+//			test
+			System.out.println("注册用户统计:"+SubmitDate+";"+Yesterday+";"+countAllRS01+";"+countAllRS02+";"+countAllRS03);
+			
+			String back="{countAllRS01:"+countAllRS01+",countAllRS02:"+countAllRS02+",countAllRS03:"+countAllRS03+"}";
+			String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
+			response.setContentType("text/html;charset=UTF-8");  
+			response.getWriter().write(Callback+"("+back+")");
 
 	    	
 	    }else if(whereFrom.equals("search")){

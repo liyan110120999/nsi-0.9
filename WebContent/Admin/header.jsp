@@ -27,6 +27,10 @@
 								<li>
 									<a href="./InstitutionCheck.jsp">机构 审核</a>
 								</li>
+								<li class="divider"></li>
+								<li>
+									<a href="./CommentCheck.jsp">评论 审核</a>
+								</li>
 																
 							</ul>
 						</li>

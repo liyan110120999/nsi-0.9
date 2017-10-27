@@ -89,7 +89,28 @@ public class Comment_api extends HttpServlet{
 		   String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
 		   response.setContentType("text/html;charset=UTF-8");  
 		   response.getWriter().write(Callback+"("+back+")");
-		  
+		
+//		   审核通过verify_pass 
+	   }else if(whereFrom.equals("verify_pass")){
+		   System.out.println("Comment_api:WF======verify_pass");
+		   String Id=request.getParameter("Id");		   
+		   String sql="UPDATE NSI_comment SET VerifySign = 'p41' where Id='"+Id+"' ;";
+		   DB.Insert(sql);		
+		   String back="{msg:1}";
+		   String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
+		   response.setContentType("text/html;charset=UTF-8");  
+		   response.getWriter().write(Callback+"("+back+")");
+	   
+//	   	审核不通过verify_pass 
+	   }else if(whereFrom.equals("verify_NoPass")){
+		   System.out.println("Comment_api:WF======verify_NoPass");
+		   String Id=request.getParameter("Id");		   
+		   String sql="UPDATE NSI_comment SET VerifySign = 'n41' where Id='"+Id+"' ;";
+		   DB.Insert(sql);		
+		   String back="{msg:1}";
+		   String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
+		   response.setContentType("text/html;charset=UTF-8");  
+		   response.getWriter().write(Callback+"("+back+")");
 	   }
     }
 }
