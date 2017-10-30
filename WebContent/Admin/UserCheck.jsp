@@ -44,7 +44,7 @@
 	//创建Statement  
 	Statement stmt = conn.createStatement();  
 	//执行查询  
-	ResultSet rs = stmt.executeQuery("select * from nsi_user order by Load_time DESC limit 0,20");  
+	ResultSet rs = stmt.executeQuery("select * from nsi_user order by Load_time DESC limit 0,60");  
 	%>  
 	
 	<table class="table">

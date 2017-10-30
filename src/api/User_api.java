@@ -318,8 +318,48 @@ public class User_api extends HttpServlet{
 			    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
 			    	response.setContentType("text/html;charset=UTF-8");  
 			    	response.getWriter().write(Callback+"("+back+")");
-			    	System.out.println(Callback+"("+back+")");
 			    	
+			    
+//			    	待测试
+//					通用积分增加
+				}else if(whereFrom.equals("Score")){
+//					给谁，加多少积分
+					String UserMail=request.getParameter("UserMail");
+					String ScoreNum00=request.getParameter("ScoreNum");
+//					String 转 int
+					System.out.println("User_api:WF=====Score积分增加"+UserMail+" : "+ScoreNum00+" ");
+					int ScoreNum=Integer.parseInt(ScoreNum00);
+					int msg=-2;	
+//					增加积分
+					String sql="UPDATE NSI_user SET User_score=User_score+'"+ScoreNum+"' WHERE UserName='"+UserMail+"'; ";	    	
+					DB.alter(sql);
+					
+//					判断攒够积分 升级
+//						获取积分和用户等级
+						List<User_model> list = new ArrayList<User_model>();
+						String sql02="SELECT * FROM nsi_user WHERE UserName='"+UserMail+"'";
+				    	list=User_DB.Search(sql02);
+				    	
+					    	String User_score00=list.get(0).getUser_score();
+					    	int User_score=Integer.parseInt(User_score00);
+					    	int Member_sign=list.get(0).getMember_sign();
+//					    	积分100升2级
+					   if (User_score>=100&&Member_sign<=1) {
+						   	String sql03="UPDATE NSI_user SET Member_sign='2' WHERE UserName='"+UserMail+"'; ";	    	
+							DB.alter(sql03);		
+//							积分300升3级
+						} else if(User_score>=300&&Member_sign<=2){
+							String sql04="UPDATE NSI_user SET Member_sign='3' WHERE UserName='"+UserMail+"'; ";	    	
+							DB.alter(sql04);
+						}
+					
+						msg=1;									
+					String back="{\"msg\":\""+msg+"\"}";				
+			    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
+			    	response.setContentType("text/html;charset=UTF-8");  
+			    	response.getWriter().write(Callback+"("+back+")");
+				    	
+				    	
 //			    	临时接口：删除测试用邮箱账号 1453485414 
 			    }else if(whereFrom.equals("DeleteTestMail")){
 //			    	谁，什么时候，反馈了什么，联系方式，本地联系方式。
