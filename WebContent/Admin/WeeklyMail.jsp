@@ -222,8 +222,7 @@
                 <!--按钮功能组-->
                 <div id="myButtons2" class="bs-example">
                 	<button type="button" class="btn btn-primary" onclick="testSend()">测试发送</button>
-                    <button type="button" class="btn btn-warning" onclick="ConfirmSend()">正式发送</button>
-                 
+                    <button type="button" class="btn btn-warning" onclick="ConfirmSend()">正式发送</button>             
                 </div>
             </form>
             

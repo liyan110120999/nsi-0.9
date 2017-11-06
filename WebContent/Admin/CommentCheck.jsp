@@ -18,7 +18,7 @@
 <body>
 	<script type="text/javascript">		
 // 			jq Ajax
- 			var pass_insert= function(aa){			    	
+ 			var pass_insert= function(aa,bb){			    	
  				$.ajax({
  				    type : "get",
  				    async:true,
@@ -27,10 +27,9 @@
  				    dataType : "jsonp",//数据类型为jsonp  
  				    jsonp: "Callback",//服务端用于接收callback调用的function名的参数  
  				    success : function(data){
-//  				        console.log(data);
-//  				        $("#testshow").html(JSON.stringify(data))
- 				    	alert('成功：审核已通过');
- 				    	window.location.reload();
+//				    	触发积分模态框
+	 				   	$(function() { $('#myModal').modal({ keyboard: true }) });
+			            $('.getMail').text(bb)
  				    },
  				    error:function(){
  				        alert('失败：请刷新页面，再尝试操作');
@@ -56,7 +55,27 @@
  				});
 			    };
 			    
-			    
+// 				增加积分    
+			    function getScores(scores) {
+			        $.ajax({
+			            type : "get",
+			            async:false,
+			            url : ApiUrl.address+"/User_api?whereFrom=Score",
+			            data: {
+			                "UserMail":$('.getMail').text(),
+			                "ScoreNum":scores
+			            },
+			            dataType : "jsonp",//数据类型为jsonp  
+			            jsonp: "Callback",//服务端用于接收callback调用的function名的参数  
+			            success : function(data){
+			                alert('成功：积分加'+scores);
+			                window.location.reload();
+			            },
+			            error:function(){
+			                alert('失败：请刷新页面，再尝试操作');
+			            }
+			        });
+			    }    
 	</script>
 
 <!-- 导入顶栏 -->
@@ -89,8 +108,7 @@
 			<th>内容</th>
 			<th>审核标记</th>
 
-			<th>操作</th>
-		
+			<th>操作</th>	
 		</tr>
 	</thead>
 	<tbody>
@@ -108,11 +126,10 @@
 			<td><%=rs.getString("Thumbs_down")%></td>
 			<td><%=rs.getString("Content")%></td>
 			<td><%=rs.getString("VerifySign")%></td>
-
 			
 			<td>
-				<button onclick="pass_insert('<%=rs.getString("Id")%>')">通过</button>
-				<button onclick="No_insert('<%=rs.getString("Id")%>')">拒绝</button>
+				<button type="button" class="btn btn-info" onclick="pass_insert('<%=rs.getString("Id")%>','<%=rs.getString("Reviewer")%>')">通过</button>
+				<button type="button" class="btn btn-warning" onclick="No_insert('<%=rs.getString("Id")%>')">拒绝</button>
 			</td>
 		</tr>		
 	<%}%>  
@@ -124,6 +141,29 @@
 	conn.close();	
 %>	
 
+<!-- 加积分模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">获得积分</h4>
+            </div>
+            <div class="modal-body">
+                <p class="getMail">kong</p>
+                <p>审核通过，请选择为该用户增加积分数量</p>
+                <button onclick="getScores(10)" class="btn btn-small btn-info">+ 10（评论）</button>
+                <button onclick="getScores(30)" class="btn btn-small btn-info">+ 30（建议）</button>
+                <button onclick="getScores(50)" class="btn btn-small btn-info">+ 50（机构 || 基本信息）</button>
+                <button onclick="getScores(80)" class="btn btn-small btn-info">+ 80（学校）</button>
+                <button onclick="getScores(100)" class="btn btn-small btn-info" style="margin-top:8px;">+ 100（完整信息）</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 
 
 

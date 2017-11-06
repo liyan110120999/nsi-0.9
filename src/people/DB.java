@@ -289,6 +289,7 @@ public class DB {
 				Talent_model talent_model = new Talent_model();
 				
 				talent_model.setId(rs.getInt("Id"));
+				talent_model.setName(rs.getString("Name"));
 				talent_model.setSex(rs.getString("Sex"));
 				talent_model.setPhone(rs.getString("Phone"));
 				talent_model.setMail(rs.getString("Mail"));

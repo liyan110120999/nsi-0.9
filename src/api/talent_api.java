@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 
 import people.DB;
 import people.Talent_model;
+import school.School_DB;
 import school.School_model;
 import sun.security.util.Length;
 
@@ -62,21 +63,35 @@ public class talent_api extends HttpServlet{
 			
 //			当前时间
 				java.util.Date currentTime = new java.util.Date(); 
-		    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	    	String SubmitDate = formatter.format(currentTime);
 	    	
 //	    	待测试能否覆盖旧信息
 	    	String sql="REPLACE INTO nsi_talent (Name,Sex,Phone,"
 				+ "Mail,Education,Major,NowWorkplace,WorkYear,ExpectWorkPlace,ExpectWorkPosition,ExpectSalary,Other,WorkExperience,EducationBackground,TrainingBackground,Public,UserMail,Load_time) " 					 		
 				+ "VALUES ('"+Name+"','"+Sex+"','"+Phone+"','"+Mail+"','"+Education+"','"+Major+"','"+NowWorkplace+"','"+WorkYear+"','"+ExpectWorkPlace+"' "
-						+ ",'"+ExpectWorkPosition+"','"+ExpectSalary+"','"+Other+"','"+WorkExperience+"','"+EducationBackground+"','"+TrainingBackground+"','"+Public+"','"+UserMail+"','"+SubmitDate+"' )";		
+						+ ",'"+ExpectWorkPosition+"','"+ExpectSalary+"','"+Other+"','"+WorkExperience+"','"+EducationBackground+"','"+TrainingBackground+"','"+Public+"','"+UserMail+"','"+SubmitDate+"' ) ";		
 		    	
 	    	DB.Insert(sql);
 			String back="{msg:1}";
 	    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
 	    	response.setContentType("text/html;charset=UTF-8");  
 	    	response.getWriter().write(Callback+"("+back+")");
-	    			
+	    
+	//	   详情,传入用户邮箱，返回简历list值
+		}else if(whereFrom.equals("detail")){
+			System.out.println("talent_api:WF=====detail");		
+		   	Gson gson = new Gson();   	
+		   	String UserMail=request.getParameter("UserMail");			
+			List<Talent_model> list = new ArrayList<Talent_model>();			
+			String sql="SELECT * from nsi_talent WHERE UserMail='"+UserMail+"' order by Load_Time DESC limit 0,1";			 	
+			list=DB.SearchTalent(sql);
+		   	String jsonList =gson.toJson(list);
+		   	String Callback = request.getParameter("Callback");//客户端请求参数
+		   	response.setContentType("text/html;charset=UTF-8");  
+		   	response.getWriter().write(Callback+"("+jsonList+")");
+	    	
+	    	
 //    	上传简历 
 		}else if(whereFrom.equals("UpResume")) {
 			System.out.println("talent api:WF======UpResume上传简历");
@@ -90,7 +105,7 @@ public class talent_api extends HttpServlet{
 		    	String UserMail=request.getParameter("UserMail");
 		    	String User_TureName=request.getParameter("User_TureName");
 		    	
-		    	 System.out.println("talent_api:简历上传，用户邮箱:"+User_TureName+UserMail);
+		    	System.out.println("talent_api:简历上传，用户邮箱:"+User_TureName+UserMail);
 				if (!ServletFileUpload.isMultipartContent(request)) {
 				    // 如果不是则停止
 				    PrintWriter writer = response.getWriter();

@@ -1,4 +1,15 @@
  <%@ page contentType="text/html;charset=UTF-8"%>  
+ 
+ <%
+	//   获取session用户		     		
+	String Session_AdminUser ="空";
+	if(session.getAttribute("Session_AdminUser")==null){
+	//	 登录超时,跳转到login
+		response.sendRedirect("http://data.xinxueshuo.cn/nsi/other/index.html");
+	}else{
+		Session_AdminUser = session.getAttribute("Session_AdminUser").toString();
+	}
+ %>
 	<!-- 	顶栏 -->
 <div class="container">
 	<div class="row ">

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import model.Model;
 import people.DB;
 import school.School_Areas_model;
 import school.School_DB;
@@ -214,6 +215,30 @@ public class Admin_api extends HttpServlet{
 	    	response.setContentType("text/html;charset=UTF-8");  
 	    	response.getWriter().write(Callback+"("+jsonList+")");
 	    	System.out.println(Callback+jsonList);
-	    }
+	    	
+	    	
+//	    	测试接口，用于测试通用图片上传
+	    }else if(whereFrom.equals("test")){
+	    	
+			System.out.println("school api:WF======test");	
+	    	Gson gson = new Gson();   	
+	
+	    	String FileType=request.getParameter("FileType");
+	    	String UserMail=request.getParameter("UserMail");
+	    	String User_TureName=request.getParameter("User_TureName");
+	    	String sql=request.getParameter("sql");
+	    	
+	    	int i=model.Model.UpFileTool(FileType, UserMail, User_TureName, sql, request);
+	    	System.out.println("模块运行之后");
+	    	System.out.println("test,upload:"+i);
+	    	String jsonList ="success";
+	    	
+	    	String Callback = request.getParameter("Callback");//客户端请求参数
+	    	response.setContentType("text/html;charset=UTF-8");  
+	    	response.getWriter().write(Callback+"("+jsonList+")");
+
+	    }else {
+			System.out.println("WF参数错误，未执行");
+		}
     }
     }

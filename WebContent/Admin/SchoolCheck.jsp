@@ -178,8 +178,8 @@
 <%-- 			<td><%=rs.getString(20)%></td> --%>
 			
 			<td>
-				<button onclick="pass_insert('<%=rs.getString(1)%>','<%=rs.getString("load_people")%>')">通过</button>
-				<button onclick="No_insert('<%=rs.getString(1)%>')">拒绝</button>
+				<button type="button" class="btn btn-info" onclick="pass_insert('<%=rs.getString(1)%>','<%=rs.getString("load_people")%>')">通过</button>
+				<button type="button" class="btn btn-warning" onclick="No_insert('<%=rs.getString(1)%>')">拒绝</button>
 			</td>
 		</tr>		
 	<%}%>  
@@ -245,8 +245,8 @@
 			<td><%=rs02.getString("load_time")%></td>
 						
 			<td>
-				<button onclick="pass_alter('<%=rs02.getString(1)%>','<%=rs02.getString("load_people")%>')">通过</button>
-				<button onclick="No_alter('<%=rs02.getString(1)%>')">拒绝</button>			
+				<button type="button" class="btn btn-info" onclick="pass_alter('<%=rs02.getString(1)%>','<%=rs02.getString("load_people")%>')">通过</button>
+				<button type="button" class="btn btn-warning" onclick="No_alter('<%=rs02.getString(1)%>')">拒绝</button>			
 			</td>
 		</tr>		
 	<%}%>  

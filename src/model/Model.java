@@ -1,8 +1,20 @@
 package model;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import model.dbutil.Dbconn;
 import people.DB;
@@ -149,5 +161,94 @@ public class Model {
 		}
         System.out.println("Model 用户邮箱是否存在："+CookieVerify);
     return CookieVerify;
+	}
+	
+	
+//	未完成
+//	文件上传通用组件
+	public static int UpFileTool(String FileType,String UserMail,String User_TureName,String sql,HttpServletRequest request) throws ServletException, IOException{
+		
+//		上传文件，保存在哪里？什么格式？	
+		System.out.println("UpFileTool通用文件上传工具类:");
+	    // 上传配置
+	    final int MEMORY_THRESHOLD   = 1024 * 1024 * 5;  // 5MB
+	    final int MAX_FILE_SIZE      = 1024 * 1024 * 40; // 40MB
+	    final int MAX_REQUEST_SIZE   = 1024 * 1024 * 50; // 50MB
+//	    	文件名：姓名+邮箱	    	
+
+	        // 配置上传参数
+	        DiskFileItemFactory factory = new DiskFileItemFactory();
+	        // 设置内存临界值 - 超过后将产生临时文件并存储于临时目录中
+	        factory.setSizeThreshold(MEMORY_THRESHOLD);
+	        // 设置临时存储目录
+	        factory.setRepository(new File(System.getProperty("java.io.tmpdir")));	 
+	        ServletFileUpload upload = new ServletFileUpload(factory);	         
+	        // 设置最大文件上传值、最大请求值 (包含文件和表单数据)、中文处理
+	        upload.setFileSizeMax(MAX_FILE_SIZE);	         
+	        upload.setSizeMax(MAX_REQUEST_SIZE);        
+	        upload.setHeaderEncoding("UTF-8"); 
+	        
+	        String uploadPath="null";
+	        // 这个路径相对当前应用的目录
+//	       	 用户头像
+	        if (FileType.equals("UserPortrait")) {
+	        	uploadPath = "C:" + File.separator+"upImage"+ File.separator+"upUserImg"+File.separator;
+			} else if(FileType.equals("aa")){
+
+			}
+	        
+	        // 如果目录不存在则创建
+	        File uploadDir = new File(uploadPath);
+	        if (!uploadDir.exists()) {
+	            uploadDir.mkdir();
+	        }	        
+	        int i=-2;
+	        try {
+// 				解析请求的内容提取文件数据
+//	        	忽略警告或错误信息
+//	            @SuppressWarnings("unchecked")
+	            List<FileItem> formItems = upload.parseRequest(request);
+	            
+	            if (formItems != null && formItems.size() > 0) {    
+	            	
+	            	int j=1;
+
+	                // 迭代表单数据
+	                for (FileItem item : formItems) {	       
+	                	
+	                	 System.out.println("参数j的值：-2位置"+j);
+	                	// 处理不在表单中的字段
+	                    if (!item.isFormField()) {
+	                    	
+//	                    	获取上传文件名,FormatName为文件格式
+	                    	String fileFormat=item.getName();
+	                    	//FormatName带点；FormatName02不带点
+	                    	String FormatName = fileFormat.substring(fileFormat.lastIndexOf("."));
+	                    	String FormatName02 = fileFormat.substring(fileFormat.lastIndexOf(".")+1);
+	                    	
+	                        String filePath = uploadPath + UserMail+User_TureName+"000"+j+FormatName;
+	                        File storeFile = new File(filePath);                                           
+	                        // 在控制台输出文件的上传路径                     
+	                        System.out.println("上传地址："+filePath);
+	                        // 保存文件到硬盘
+	                        item.write(storeFile);
+	                        i=1;    
+	                        
+	                        System.out.println("参数j的值："+j);
+                 	                        
+	                    }
+		                    System.out.println("参数j的值02位置："+j);
+		                    j=j+1;
+	                }
+               //传入sql,传入00不执行     
+                  if (sql.length()>5) {
+						DB.alter(sql);
+					}              
+	            }
+	        } catch (Exception ex) {
+	        	System.err.println("文件上传模块-错误详情："+ex.getMessage());
+	            i=-1;
+	        }  
+    return i;
 	}
 }
