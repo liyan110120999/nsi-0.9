@@ -50,7 +50,6 @@ public class School_api extends HttpServlet{
 //			判断用户标志
 			String member_sign00=request.getParameter("member_sign");
 		 
-//			String Id=request.getParameter("Id");
 			String School_name=request.getParameter("School_name");
 			String School_EnglishName=request.getParameter("School_EnglishName");
 			String School_properties=request.getParameter("School_properties");
@@ -60,7 +59,13 @@ public class School_api extends HttpServlet{
 			String Founded_time=request.getParameter("Founded_time");
 			String OperationState=request.getParameter("OperationState");
 			String School_system=request.getParameter("School_system");
-			String Tuition=request.getParameter("Tuition");
+			String Tuition01=request.getParameter("Tuition01");
+			String Tuition02=request.getParameter("Tuition02");
+			String Tuition03=request.getParameter("Tuition03");
+			String Tuition04=request.getParameter("Tuition04");
+			String TuitionHigh=request.getParameter("TuitionHigh");
+			
+			
 			String Website=request.getParameter("Website");
 			String Telephone=request.getParameter("Telephone");
 
@@ -68,7 +73,19 @@ public class School_api extends HttpServlet{
 			String Course=request.getParameter("Course");
 			String Authentication=request.getParameter("Authentication");
 			String Course_evaluation=request.getParameter("Course_evaluation");
-			String Student_Num=request.getParameter("Student_Num");
+			
+			String Student_Num_All00=request.getParameter("Student_Num_All");
+			String Student_Num0100=request.getParameter("Student_Num01");
+			String Student_Num0200=request.getParameter("Student_Num02");
+			String Student_Num0300=request.getParameter("Student_Num03");
+			String Student_Num0400=request.getParameter("Student_Num04");
+			int Student_Num_All=Integer.parseInt(Student_Num_All00);
+			int Student_Num01=Integer.parseInt(Student_Num0100);
+			int Student_Num02=Integer.parseInt(Student_Num0200);
+			int Student_Num03=Integer.parseInt(Student_Num0300);
+			int Student_Num04=Integer.parseInt(Student_Num0400);
+			
+			
 			String Student_Capacity=request.getParameter("Student_Capacity");
 			String Graduated_Stu_Num=request.getParameter("Graduated_Stu_Num");
 			String Stu_Dominant_nationality=request.getParameter("Stu_Dominant_nationality");
@@ -90,9 +107,7 @@ public class School_api extends HttpServlet{
 			String Investment=request.getParameter("Investment");
 			String Remark=request.getParameter("Remark");
 		
-//			String Recent_Modifier=request.getParameter("Recent_Modifier");
 			String Load_People=request.getParameter("Load_People");
-//			String Load_Time=request.getParameter("Load_Time");
 
 //			当前时间
 				java.util.Date currentTime = new java.util.Date(); 
@@ -117,34 +132,34 @@ public class School_api extends HttpServlet{
 	    	int VerifySign=11;
 			 if(member_sign<=7){			
 				sql="REPLACE INTO NSI_SCHOOL_data_verify (School_name,School_EnglishName,School_properties,"
-						+ "Areas,Areas02,Areas03,Founded_time,OperationState,School_system,Tuition,Website,Telephone,Inter_Course_Founded_time,Course,"
-				 		+ "Authentication,Course_evaluation,Student_Num,Student_Capacity,Graduated_Stu_Num,Stu_Dominant_nationality,Stu_Year_Investment,Club_Num,President_Country,Staff_Num,Teacher_Num,Foreign_Teacher_num,Teacher_Year_Investment,"
+						+ "Areas,Areas02,Areas03,Founded_time,OperationState,School_system,Tuition01,Tuition02,Tuition03,Tuition04,TuitionHigh,Website,Telephone,Inter_Course_Founded_time,Course,"
+				 		+ "Authentication,Course_evaluation,Student_Num_All,Student_Num01,Student_Num02,Student_Num03,Student_Num04,Student_Capacity,Graduated_Stu_Num,Stu_Dominant_nationality,Stu_Year_Investment,Club_Num,President_Country,Staff_Num,Teacher_Num,Foreign_Teacher_num,Teacher_Year_Investment,"
 				 		+ "Teacher_Retention,Teacher_Salary,Teacher_Stu_ratio,Covered_Area,Built_Area,Hardware,Investment,Remark,Load_People,Load_Time,VerifySign) "
 				 					 		
 						+ "VALUES ('"+School_name+"','"+School_EnglishName+"','"+School_properties+"',"
-						+ "'"+Areas+"','"+Areas02+"','"+Areas03+"','"+Founded_time+"','"+OperationState+"','"+School_system+"','"+Tuition+"','"+Website+"','"+Telephone+"','"+Inter_Course_Founded_time+"','"+Course+"',"
-						+ "'"+Authentication+"','"+Course_evaluation+"','"+Student_Num+"','"+Student_Capacity+"','"+Graduated_Stu_Num+"','"+Stu_Dominant_nationality+"','"+Stu_Year_Investment+"','"+Club_Num+"','"+President_Country+"','"+Staff_Num+"','"+Teacher_Num+"','"+Foreign_Teacher_num+"','"+Teacher_Year_Investment+"',"
+						+ "'"+Areas+"','"+Areas02+"','"+Areas03+"','"+Founded_time+"','"+OperationState+"','"+School_system+"','"+Tuition01+"','"+Tuition02+"','"+Tuition03+"','"+Tuition04+"','"+TuitionHigh+"','"+Website+"','"+Telephone+"','"+Inter_Course_Founded_time+"','"+Course+"',"
+						+ "'"+Authentication+"','"+Course_evaluation+"','"+Student_Num_All+"','"+Student_Num01+"','"+Student_Num02+"','"+Student_Num03+"','"+Student_Num04+"','"+Student_Capacity+"','"+Graduated_Stu_Num+"','"+Stu_Dominant_nationality+"','"+Stu_Year_Investment+"','"+Club_Num+"','"+President_Country+"','"+Staff_Num+"','"+Teacher_Num+"','"+Foreign_Teacher_num+"','"+Teacher_Year_Investment+"',"
 						+ "'"+Teacher_Retention+"','"+Teacher_Salary+"','"+Teacher_Stu_ratio+"','"+Covered_Area+"','"+Built_Area+"','"+Hardware+"','"+Investment+"','"+Remark+"','"+Load_People+"','"+SubmitDate+"','"+VerifySign+"')";			
 			 }else{
 //				内部员工免审核
 				sql="INSERT INTO NSI_SCHOOL_data (School_name,School_EnglishName,School_properties,"
-						+ "Areas,Areas02,Areas03,Founded_time,OperationState,School_system,Tuition,Website,Telephone,Inter_Course_Founded_time,Course,"
+						+ "Areas,Areas02,Areas03,Founded_time,OperationState,School_system,Tuition01,Tuition02,Tuition03,Tuition04,TuitionHigh,Website,Telephone,Inter_Course_Founded_time,Course,"
 				 		+ "Authentication,Course_evaluation,Student_Num,Student_Capacity,Graduated_Stu_Num,Stu_Dominant_nationality,Stu_Year_Investment,Club_Num,President_Country,Staff_Num,Teacher_Num,Foreign_Teacher_num,Teacher_Year_Investment,"
 				 		+ "Teacher_Retention,Teacher_Salary,Teacher_Stu_ratio,Covered_Area,Built_Area,Hardware,Investment,Remark,Load_People,Load_Time,VerifySign) "
 				 					 		
 						+ "VALUES ('"+School_name+"','"+School_EnglishName+"','"+School_properties+"',"
-						+ "'"+Areas+"','"+Areas02+"','"+Areas03+"','"+Founded_time+"','"+OperationState+"','"+School_system+"','"+Tuition+"','"+Website+"','"+Telephone+"','"+Inter_Course_Founded_time+"','"+Course+"',"
-						+ "'"+Authentication+"','"+Course_evaluation+"','"+Student_Num+"','"+Student_Capacity+"','"+Graduated_Stu_Num+"','"+Stu_Dominant_nationality+"','"+Stu_Year_Investment+"','"+Club_Num+"','"+President_Country+"','"+Staff_Num+"','"+Teacher_Num+"','"+Foreign_Teacher_num+"','"+Teacher_Year_Investment+"',"
+						+ "'"+Areas+"','"+Areas02+"','"+Areas03+"','"+Founded_time+"','"+OperationState+"','"+School_system+"','"+Tuition01+"','"+Tuition02+"','"+Tuition03+"','"+Tuition04+"','"+TuitionHigh+"','"+Website+"','"+Telephone+"','"+Inter_Course_Founded_time+"','"+Course+"',"
+						+ "'"+Authentication+"','"+Course_evaluation+"','"+Student_Num_All+"','"+Student_Num01+"','"+Student_Num02+"','"+Student_Num03+"','"+Student_Num04+"','"+Student_Capacity+"','"+Graduated_Stu_Num+"','"+Stu_Dominant_nationality+"','"+Stu_Year_Investment+"','"+Club_Num+"','"+President_Country+"','"+Staff_Num+"','"+Teacher_Num+"','"+Foreign_Teacher_num+"','"+Teacher_Year_Investment+"',"
 						+ "'"+Teacher_Retention+"','"+Teacher_Salary+"','"+Teacher_Stu_ratio+"','"+Covered_Area+"','"+Built_Area+"','"+Hardware+"','"+Investment+"','"+Remark+"','"+Load_People+"','"+SubmitDate+"','"+VerifySign+"')";			
-			 }
-			
+			 }			
 			DB.Insert(sql);
 			
 			String back="{msg:1}";
 	    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
 	    	response.setContentType("text/html;charset=UTF-8");  
-	    	response.getWriter().write(Callback+"("+back+")");
-				
+	    	response.getWriter().write(Callback+"("+back+")");				
+	    	
+	    	/////////////////////////////////////////////////////////////////////////
 //	    	change
 //			待测试 ID删除
 		}else if(whereFrom.equals("delete")){
@@ -183,7 +198,12 @@ public class School_api extends HttpServlet{
 			String Founded_time=request.getParameter("Founded_time");
 			String OperationState=request.getParameter("OperationState");
 			String School_system=request.getParameter("School_system");
-			String Tuition=request.getParameter("Tuition");
+			String Tuition01=request.getParameter("Tuition01");
+			String Tuition02=request.getParameter("Tuition02");
+			String Tuition03=request.getParameter("Tuition03");
+			String Tuition04=request.getParameter("Tuition04");
+			String TuitionHigh=request.getParameter("TuitionHigh");
+					
 			String Website=request.getParameter("Website");
 			String Telephone=request.getParameter("Telephone");
 
@@ -191,7 +211,12 @@ public class School_api extends HttpServlet{
 			String Course=request.getParameter("Course");
 			String Authentication=request.getParameter("Authentication");
 			String Course_evaluation=request.getParameter("Course_evaluation");
-			String Student_Num=request.getParameter("Student_Num");
+			String Student_Num01=request.getParameter("Student_Num01");
+			String Student_Num02=request.getParameter("Student_Num02");
+			String Student_Num03=request.getParameter("Student_Num03");
+			String Student_Num04=request.getParameter("Student_Num04");
+			String Student_Num_All=request.getParameter("Student_Num_All");		
+			
 			String Student_Capacity=request.getParameter("Student_Capacity");
 			String Graduated_Stu_Num=request.getParameter("Graduated_Stu_Num");
 			String Stu_Dominant_nationality=request.getParameter("Stu_Dominant_nationality");
@@ -223,19 +248,18 @@ public class School_api extends HttpServlet{
 	    	int VerifySign=12;
 	    	String sql=null;
 			Gson gson = new Gson();  
-//			????--------------------------------------------------------------------------
 			List<School_model> list = new ArrayList<School_model>();
 						
 			if(member_sign<=7){			
 //				插入到审核数据表
-				sql="REPLACE INTO NSI_SCHOOL_data_verify (Id,School_name,School_EnglishName,School_properties,Areas,Areas02,Areas03,Founded_time,OperationState,School_system,Tuition,Website,Telephone,"
-						+ "Inter_Course_Founded_time,Course,Authentication,Course_evaluation,Student_Num,Student_Capacity,Graduated_Stu_Num,Stu_Dominant_nationality,Stu_Year_Investment,Club_Num,President_Country,"
+				sql="REPLACE INTO NSI_SCHOOL_data_verify (Id,School_name,School_EnglishName,School_properties,Areas,Areas02,Areas03,Founded_time,OperationState,School_system,Tuition01,Tuition02,Tuition03,Tuition04,TuitionHigh,Website,Telephone,"
+						+ "Inter_Course_Founded_time,Course,Authentication,Course_evaluation,Student_Num_All,Student_Num01,Student_Num02,Student_Num03,Student_Num04,Student_Capacity,Graduated_Stu_Num,Stu_Dominant_nationality,Stu_Year_Investment,Club_Num,President_Country,"
 						+ "Staff_Num,Teacher_Num,Foreign_Teacher_num,Teacher_Year_Investment,Teacher_Retention,Teacher_Salary,Teacher_Stu_ratio,Covered_Area,Built_Area,Hardware,Investment,Remark,"
 						+ "Load_People,Load_Time,VerifySign) "
 							
 				+ "VALUES ('"+alter_old_School_id+"','"+School_name+"','"+School_EnglishName+"','"+School_properties+"',"
-				+ "'"+Areas+"','"+Areas02+"','"+Areas03+"','"+Founded_time+"','"+OperationState+"','"+School_system+"','"+Tuition+"','"+Website+"','"+Telephone+"','"+Inter_Course_Founded_time+"','"+Course+"',"
-				+ "'"+Authentication+"','"+Course_evaluation+"','"+Student_Num+"','"+Student_Capacity+"','"+Graduated_Stu_Num+"','"+Stu_Dominant_nationality+"','"+Stu_Year_Investment+"','"+Club_Num+"','"+President_Country+"','"+Staff_Num+"','"+Teacher_Num+"','"+Foreign_Teacher_num+"','"+Teacher_Year_Investment+"',"
+				+ "'"+Areas+"','"+Areas02+"','"+Areas03+"','"+Founded_time+"','"+OperationState+"','"+School_system+"','"+Tuition01+"','"+Tuition02+"','"+Tuition03+"','"+Tuition04+"','"+TuitionHigh+"','"+Website+"','"+Telephone+"','"+Inter_Course_Founded_time+"','"+Course+"',"
+				+ "'"+Authentication+"','"+Course_evaluation+"','"+Student_Num_All+"','"+Student_Num01+"','"+Student_Num02+"','"+Student_Num03+"','"+Student_Num04+"','"+Student_Capacity+"','"+Graduated_Stu_Num+"','"+Stu_Dominant_nationality+"','"+Stu_Year_Investment+"','"+Club_Num+"','"+President_Country+"','"+Staff_Num+"','"+Teacher_Num+"','"+Foreign_Teacher_num+"','"+Teacher_Year_Investment+"',"
 				+ "'"+Teacher_Retention+"','"+Teacher_Salary+"','"+Teacher_Stu_ratio+"','"+Covered_Area+"','"+Built_Area+"','"+Hardware+"','"+Investment+"','"+Remark+"','"+Load_People+"','"+SubmitDate+"','"+VerifySign+"')";			
 				System.out.print("修改 sql:"+sql);
 				DB.Insert(sql);
@@ -245,10 +269,10 @@ public class School_api extends HttpServlet{
 				sql="UPDATE NSI_SCHOOL_data SET School_name ='"+School_name+"',School_EnglishName ='"+School_EnglishName+"',"
 				+ "School_properties ='"+School_properties+"',Areas ='"+Areas+"',Areas02 ='"+Areas02+"',Areas03 ='"+Areas03+"',"
 				+ "Founded_time ='"+Founded_time+"',OperationState ='"+OperationState+"',School_system ='"+School_system+"',"
-				+ "Tuition ='"+Tuition+"',Website ='"+Website+"',Telephone ='"+Telephone+"',"
+				+ "Tuition01 ='"+Tuition01+"',Tuition02 ='"+Tuition02+"',Tuition03 ='"+Tuition03+"',Tuition04 ='"+Tuition04+"',TuitionHigh ='"+TuitionHigh+"',Website ='"+Website+"',Telephone ='"+Telephone+"',"
 				+ "Inter_Course_Founded_time ='"+Inter_Course_Founded_time+"',Course ='"+Course+"',"
 				+ "Authentication ='"+Authentication+"',Course_evaluation ='"+Course_evaluation+"',"
-				+ "Student_Num ='"+Student_Num+"',Student_Capacity ='"+Student_Capacity+"',"
+				+ "Student_Num_All ='"+Student_Num_All+"',Student_Num01 ='"+Student_Num01+"',Student_Num02 ='"+Student_Num02+"',Student_Num03 ='"+Student_Num03+"',Student_Num04 ='"+Student_Num04+"',Student_Capacity ='"+Student_Capacity+"',"
 				+ "Graduated_Stu_Num ='"+Graduated_Stu_Num+"',Stu_Dominant_nationality ='"+Stu_Dominant_nationality+"',"
 				+ "Stu_Year_Investment ='"+Stu_Year_Investment+"',Club_Num ='"+Club_Num+"',"
 				+ "President_Country ='"+President_Country+"',Staff_Num ='"+Staff_Num+"',Teacher_Num ='"+Teacher_Num+"',"
@@ -590,18 +614,11 @@ public class School_api extends HttpServlet{
 			StringBuffer.append(" order by CONVERT(School_name USING gb2312)");
 
 			countAllRS=DB.count(StringBuffer.toString());
-			
-//			String back="{\"countAllRS\":\""+countAllRS+"\"}";
-//
-//	    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
-//	    	response.setContentType("text/html;charset=UTF-8");  
-//	    	response.getWriter().write(Callback+"("+back+")");
 		    	
 	    	String back="{countAllRS:"+countAllRS+"}";
 			String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
 			response.setContentType("text/html;charset=UTF-8");  
 			response.getWriter().write(Callback+"("+back+")");
-	
 		
 					  	
 //	    	测试echart数据 省份学校数量查询
@@ -667,11 +684,11 @@ public class School_api extends HttpServlet{
 	    	int School_ID=Integer.parseInt(School_ID00);
 	    	
 		    	String sql="INSERT INTO nsi_school_data (School_name,School_EnglishName,School_properties," 
-		    							+ "Areas,Areas02,Areas03,Founded_time,OperationState,School_system,Tuition,Website,Telephone,Inter_Course_Founded_time,Course," 
-		    					 		+ "Authentication,Course_evaluation,Student_Num,Student_Capacity,Graduated_Stu_Num,Stu_Dominant_nationality,Stu_Year_Investment,Club_Num,President_Country,Staff_Num,Teacher_Num,Foreign_Teacher_num,Teacher_Year_Investment," 
+		    							+ "Areas,Areas02,Areas03,Founded_time,OperationState,School_system,Tuition01,Tuition02,Tuition03,Tuition04,TuitionHigh,Website,Telephone,Inter_Course_Founded_time,Course," 
+		    					 		+ "Authentication,Course_evaluation,Student_Num_All,Student_Num01,Student_Num02,Student_Num03,Student_Num04,Student_Capacity,Graduated_Stu_Num,Stu_Dominant_nationality,Stu_Year_Investment,Club_Num,President_Country,Staff_Num,Teacher_Num,Foreign_Teacher_num,Teacher_Year_Investment," 
 		    					 		+ "Teacher_Retention,Teacher_Salary,Teacher_Stu_ratio,Covered_Area,Built_Area,Hardware,Investment,Remark,Load_People,Load_Time,VerifySign) "
 		    	
-		    			+ " SELECT `School_name`,`School_EnglishName`,`School_properties`,`Areas`,`Areas02`,`Areas03`,`Founded_time`,`OperationState`,`School_system`,`Tuition`,`Website`,`Telephone`,`Inter_Course_Founded_time`,`Course`,`Authentication`,`Course_evaluation`,`Student_Num`,`Student_Capacity`,`Graduated_Stu_Num`,`Stu_Dominant_nationality`,`Stu_Year_Investment`,`Club_Num`,`President_Country`,`Staff_Num`,`Teacher_Num`,`Foreign_Teacher_num`,`Teacher_Year_Investment`,`Teacher_Retention`,`Teacher_Salary`,`Teacher_Stu_ratio`,`Covered_Area`,`Built_Area`,`Hardware`,`Investment`,`Remark`,`Load_People`,`Load_Time`,`VerifySign` "
+		    			+ " SELECT `School_name`,`School_EnglishName`,`School_properties`,`Areas`,`Areas02`,`Areas03`,`Founded_time`,`OperationState`,`School_system`,`Tuition01`,`Tuition02`,`Tuition03`,`Tuition04`,`TuitionHigh`,`Website`,`Telephone`,`Inter_Course_Founded_time`,`Course`,`Authentication`,`Course_evaluation`,`Student_Num_All`,`Student_Num01`,`Student_Num02`,`Student_Num03`,`Student_Num04`,`Student_Capacity`,`Graduated_Stu_Num`,`Stu_Dominant_nationality`,`Stu_Year_Investment`,`Club_Num`,`President_Country`,`Staff_Num`,`Teacher_Num`,`Foreign_Teacher_num`,`Teacher_Year_Investment`,`Teacher_Retention`,`Teacher_Salary`,`Teacher_Stu_ratio`,`Covered_Area`,`Built_Area`,`Hardware`,`Investment`,`Remark`,`Load_People`,`Load_Time`,`VerifySign` "
 		    			+ " FROM nsi_school_data_verify where Id = '"+School_ID+"' ";
 		    	
 		    	String sql02="UPDATE nsi_school_data_verify SET VerifySign='p11' where Id= '"+School_ID+"' ;";
@@ -739,8 +756,8 @@ public class School_api extends HttpServlet{
 	    	
 //	    	DB.Insert(sql02);	
 	    	
-	    	String sql=" REPLACE into nsi_school_data (`Id`,`School_name`,`School_EnglishName`,`School_properties`,`Areas`,`Areas02`,`Areas03`,`Founded_time`,`OperationState`,`School_system`,`Tuition`,`Website`,`Telephone`,`Inter_Course_Founded_time`,`Course`,`Authentication`,`Course_evaluation`,`Student_Num`,`Student_Capacity`,`Graduated_Stu_Num`,`Stu_Dominant_nationality`,`Stu_Year_Investment`,`Club_Num`,`President_Country`,`Staff_Num`,`Teacher_Num`,`Foreign_Teacher_num`,`Teacher_Year_Investment`,`Teacher_Retention`,`Teacher_Salary`,`Teacher_Stu_ratio`,`Covered_Area`,`Built_Area`,`Hardware`,`Investment`,`Remark`,`Load_People`,`Load_Time`,`VerifySign` )" 
-	    				+"SELECT  `Id`,`School_name`,`School_EnglishName`,`School_properties`,`Areas`,`Areas02`,`Areas03`,`Founded_time`,`OperationState`,`School_system`,`Tuition`,`Website`,`Telephone`,`Inter_Course_Founded_time`,`Course`,`Authentication`,`Course_evaluation`,`Student_Num`,`Student_Capacity`,`Graduated_Stu_Num`,`Stu_Dominant_nationality`,`Stu_Year_Investment`,`Club_Num`,`President_Country`,`Staff_Num`,`Teacher_Num`,`Foreign_Teacher_num`,`Teacher_Year_Investment`,`Teacher_Retention`,`Teacher_Salary`,`Teacher_Stu_ratio`,`Covered_Area`,`Built_Area`,`Hardware`,`Investment`,`Remark`,`Load_People`,`Load_Time`,`VerifySign` "
+	    	String sql=" REPLACE into nsi_school_data (`Id`,`School_name`,`School_EnglishName`,`School_properties`,`Areas`,`Areas02`,`Areas03`,`Founded_time`,`OperationState`,`School_system`,`Tuition01`,`Tuition02`,`Tuition03`,`Tuition04`,`TuitionHigh`,`Website`,`Telephone`,`Inter_Course_Founded_time`,`Course`,`Authentication`,`Course_evaluation`,`Student_Num_All`,`Student_Num01`,`Student_Num02`,`Student_Num03`,`Student_Num04`,`Student_Capacity`,`Graduated_Stu_Num`,`Stu_Dominant_nationality`,`Stu_Year_Investment`,`Club_Num`,`President_Country`,`Staff_Num`,`Teacher_Num`,`Foreign_Teacher_num`,`Teacher_Year_Investment`,`Teacher_Retention`,`Teacher_Salary`,`Teacher_Stu_ratio`,`Covered_Area`,`Built_Area`,`Hardware`,`Investment`,`Remark`,`Load_People`,`Load_Time`,`VerifySign` )" 
+	    				+"SELECT  `Id`,`School_name`,`School_EnglishName`,`School_properties`,`Areas`,`Areas02`,`Areas03`,`Founded_time`,`OperationState`,`School_system`,`Tuition01`,`Tuition02`,`Tuition03`,`Tuition04`,`TuitionHigh`,`Website`,`Telephone`,`Inter_Course_Founded_time`,`Course`,`Authentication`,`Course_evaluation`,`Student_Num_All`,`Student_Num01`,`Student_Num02`,`Student_Num03`,`Student_Num04`,`Student_Capacity`,`Graduated_Stu_Num`,`Stu_Dominant_nationality`,`Stu_Year_Investment`,`Club_Num`,`President_Country`,`Staff_Num`,`Teacher_Num`,`Foreign_Teacher_num`,`Teacher_Year_Investment`,`Teacher_Retention`,`Teacher_Salary`,`Teacher_Stu_ratio`,`Covered_Area`,`Built_Area`,`Hardware`,`Investment`,`Remark`,`Load_People`,`Load_Time`,`VerifySign` "
 	    				+"FROM nsi_school_data_verify where Id = '"+School_ID+"'  ";
 	    	
 	    	String sql02="UPDATE nsi_school_data_verify SET VerifySign='p12' where Id= '"+School_ID+"' ;";

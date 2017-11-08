@@ -229,13 +229,12 @@ public class Admin_api extends HttpServlet{
 	    	String sql=request.getParameter("sql");
 	    	
 	    	int i=model.Model.UpFileTool(FileType, UserMail, User_TureName, sql, request);
-	    	System.out.println("模块运行之后");
 	    	System.out.println("test,upload:"+i);
-	    	String jsonList ="success";
+	    	String back="{msg:"+i+"}";
 	    	
 	    	String Callback = request.getParameter("Callback");//客户端请求参数
 	    	response.setContentType("text/html;charset=UTF-8");  
-	    	response.getWriter().write(Callback+"("+jsonList+")");
+	    	response.getWriter().write(Callback+"("+back+")");
 
 	    }else {
 			System.out.println("WF参数错误，未执行");

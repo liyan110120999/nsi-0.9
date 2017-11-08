@@ -35,21 +35,30 @@ public class School_DB {
 				school.setFounded_time(rs.getInt("Founded_time"));
 				school.setOperationState(rs.getString("OperationState"));
 				school.setSchool_system(rs.getString("School_system"));
-				school.setTuition(rs.getString("Tuition"));
+				school.setTuition01(rs.getString("Tuition01"));
+				school.setTuition02(rs.getString("Tuition02"));
+				school.setTuition03(rs.getString("Tuition03"));
+				school.setTuition04(rs.getString("Tuition04"));	
+				school.setTuitionHigh(rs.getString("TuitionHigh"));	
+		
 				school.setWebsite(rs.getString("Website"));
 				school.setTelephone(rs.getString("Telephone"));
-				school.setUn01(rs.getString("un01"));
 				school.setInter_Course_Founded_time(rs.getInt("Inter_Course_Founded_time"));
 				school.setCourse(rs.getString("Course"));
 				school.setAuthentication(rs.getString("Authentication"));
 				school.setCourse_evaluation(rs.getString("Course_evaluation"));
-				school.setStudent_Num(rs.getInt("Student_Num"));
+				
+				school.setStudent_Num_All(rs.getInt("Student_Num_All"));				
+				school.setStudent_Num01(rs.getInt("Student_Num01"));
+				school.setStudent_Num02(rs.getInt("Student_Num02"));
+				school.setStudent_Num03(rs.getInt("Student_Num03"));
+				school.setStudent_Num04(rs.getInt("Student_Num04"));
+				
 				school.setStudent_Capacity(rs.getInt("Student_Capacity"));
 				school.setGraduated_Stu_Num(rs.getInt("Graduated_Stu_Num"));
 				school.setStu_Dominant_nationality(rs.getString("Stu_Dominant_nationality"));
 				school.setStu_Year_Investment(rs.getString("Stu_Year_Investment"));
 				school.setClub_Num(rs.getString("Club_Num"));
-				school.setUn02(rs.getString("un02"));
 				school.setPresident_Country(rs.getString("President_Country"));
 				school.setStaff_Num(rs.getInt("Staff_Num"));
 				school.setTeacher_Num(rs.getInt("Teacher_Num"));
@@ -58,20 +67,14 @@ public class School_DB {
 				school.setTeacher_Retention(rs.getString("Teacher_Retention"));
 				school.setTeacher_Salary(rs.getString("Teacher_Salary"));
 				school.setTeacher_Stu_ratio(rs.getString("Teacher_Stu_ratio"));
-				school.setUn03(rs.getString("un03"));
 				school.setCovered_Area(rs.getString("Covered_Area"));
 				school.setBuilt_Area(rs.getString("Built_Area"));
 				school.setHardware(rs.getString("Hardware"));
 				school.setInvestment(rs.getString("Investment"));
-				school.setRemark(rs.getString("Remark"));
-				school.setUn04(rs.getString("un04"));			
+				school.setRemark(rs.getString("Remark"));			
 				school.setRecent_Modifier(rs.getString("Recent_Modifier"));
 				school.setLoad_People(rs.getString("Load_People"));
 				school.setLoad_Time(rs.getString("Load_Time"));
-				school.setUn05(rs.getString("un05"));
-				school.setUn06(rs.getString("un06"));
-				school.setUn07(rs.getString("un07"));
-				school.setUn08(rs.getString("un08"));
 				school.setUn09(rs.getString("un09"));
 				school.setUn10(rs.getString("un10"));	
 				school.setSchool_logo(rs.getString("School_logo"));

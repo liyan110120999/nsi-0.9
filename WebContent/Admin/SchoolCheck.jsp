@@ -168,7 +168,7 @@
 			<td><%=rs.getString("Founded_time")%></td>
 			<td><%=rs.getString("School_system")%></td>
 			<td><%=rs.getString("Course")%></td>
-			<td><%=rs.getString("Tuition")%></td>
+			<td><%=rs.getString("Tuition01")%></td>
 			<td><%=rs.getString("Website")%></td>
 			<td><%=rs.getString("Telephone")%></td>				
 			<td><%=rs.getString("load_people")%></td>
@@ -238,7 +238,7 @@
 			<td><%=rs02.getString("Founded_time")%></td>
 			<td><%=rs02.getString("School_system")%></td>
 			<td><%=rs02.getString("Course")%></td>
-			<td><%=rs02.getString("Tuition")%></td>
+			<td><%=rs02.getString("Tuition01")%></td>
 			<td><%=rs02.getString("Website")%></td>
 			<td><%=rs02.getString("Telephone")%></td>				
 			<td><%=rs02.getString("load_people")%></td>

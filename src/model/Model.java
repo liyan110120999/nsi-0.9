@@ -1,7 +1,9 @@
 package model;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,8 +18,11 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+
 import model.dbutil.Dbconn;
 import people.DB;
+import sun.misc.BASE64Decoder;
 import entity.User;
 
 public class Model {
@@ -35,7 +40,7 @@ public class Model {
 	private ResultSet rs;
 	Dbconn s=new Dbconn();
 	
-//	ÊÇ·ñ´æÔÚÓÃ»§
+//	æ˜¯å¦å­˜åœ¨ç”¨æˆ·
 	public User queryByName(String name) {
 		User user = null; 
 		String sql = "select * from nsi_user where UserName = ? ";
@@ -58,7 +63,7 @@ public class Model {
         }
     return user;
 	}
-//	¼ì²éÓÃ»§±êÖ¾Î»ÊÇ·ñ Î´¼¤»î
+//	æ£€æŸ¥ç”¨æˆ·æ ‡å¿—ä½æ˜¯å¦ æœªæ¿€æ´»
 	public boolean queryByCode(String name) {
 		User user = null; 
 		boolean checkCode = false; 
@@ -75,12 +80,12 @@ public class Model {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("codeÑéÖ¤£º"+checkCode);
+        System.out.println("codeéªŒè¯ï¼š"+checkCode);
     return checkCode;
 	}
 	
-// ´ıĞŞ¸Ä ÎªID²éÑ¯ ÔİÊ±ÓÃ²»µ½
-//	²éÑ¯ÓÃ»§µÈ¼¶±êÖ¾Î»
+// å¾…ä¿®æ”¹ ä¸ºIDæŸ¥è¯¢ æš‚æ—¶ç”¨ä¸åˆ°
+//	æŸ¥è¯¢ç”¨æˆ·ç­‰çº§æ ‡å¿—ä½
 	public int queryById(String name) {
 		User user = null; 
 		int User_Member_sign= -2; 
@@ -100,16 +105,16 @@ public class Model {
             e.printStackTrace();
         }
         User_Member_sign=user.getMember_sign();
-        System.out.println("Model ²éÑ¯ÓÃ»§µÈ¼¶Îª£º"+User_Member_sign);
+        System.out.println("Model æŸ¥è¯¢ç”¨æˆ·ç­‰çº§ä¸ºï¼š"+User_Member_sign);
     return User_Member_sign;
 	}
 	
 	
-//	ÓÃ»§cookieĞ£Ñé
+//	ç”¨æˆ·cookieæ ¡éªŒ
 	public int UserVerify(String username,String member_sign,String UserVerifyCode) {
-//		1¡¢ÓÃ»§´æ²»´æÔÚ£¿
-//		2¡¢È¨ÏŞ±ê¼ÇÎ»ÊÇ·ñÕıÈ·£¿
-//		3¡¢Ğ£ÑéºÍÊÇ·ñÕıÈ·£¿
+//		1ã€ç”¨æˆ·å­˜ä¸å­˜åœ¨ï¼Ÿ
+//		2ã€æƒé™æ ‡è®°ä½æ˜¯å¦æ­£ç¡®ï¼Ÿ
+//		3ã€æ ¡éªŒå’Œæ˜¯å¦æ­£ç¡®ï¼Ÿ
 		User user = null; 
 		int CookieVerify= -3; 
 		String sql = "select * from nsi_user where UserName = '"+username+"'";
@@ -143,13 +148,13 @@ public class Model {
 			CookieVerify=-2;
 		}
         
-        System.out.println("Model ÓÃ»§cookieĞ£ÑéÎª£º"+CookieVerify);
+        System.out.println("Model ç”¨æˆ·cookieæ ¡éªŒä¸ºï¼š"+CookieVerify);
     return CookieVerify;
 	}
 	
-//	ÅĞ¶ÏÓÊÏäÊÇ·ñ´æÔÚ
+//	åˆ¤æ–­é‚®ç®±æ˜¯å¦å­˜åœ¨
 	public int UserExistence(String username) {
-//		1¡¢ÓÃ»§´æ²»´æÔÚ£¿
+//		1ã€ç”¨æˆ·å­˜ä¸å­˜åœ¨ï¼Ÿ
 		User user = null; 
 		int CookieVerify= -3; 
 		String sql = "select * from nsi_user where UserName = '"+username+"'";
@@ -159,53 +164,53 @@ public class Model {
 		}else {
 			CookieVerify=-1;
 		}
-        System.out.println("Model ÓÃ»§ÓÊÏäÊÇ·ñ´æÔÚ£º"+CookieVerify);
+        System.out.println("Model ç”¨æˆ·é‚®ç®±æ˜¯å¦å­˜åœ¨ï¼š"+CookieVerify);
     return CookieVerify;
 	}
 	
 	
-//	Î´Íê³É
-//	ÎÄ¼şÉÏ´«Í¨ÓÃ×é¼ş
+//	æœªå®Œæˆ
+//	æ–‡ä»¶ä¸Šä¼ é€šç”¨ç»„ä»¶
 	public static int UpFileTool(String FileType,String UserMail,String User_TureName,String sql,HttpServletRequest request) throws ServletException, IOException{
 		
-//		ÉÏ´«ÎÄ¼ş£¬±£´æÔÚÄÄÀï£¿Ê²Ã´¸ñÊ½£¿	
-		System.out.println("UpFileToolÍ¨ÓÃÎÄ¼şÉÏ´«¹¤¾ßÀà:");
-	    // ÉÏ´«ÅäÖÃ
+//		ä¸Šä¼ æ–‡ä»¶ï¼Œä¿å­˜åœ¨å“ªé‡Œï¼Ÿä»€ä¹ˆæ ¼å¼ï¼Ÿ	
+		System.out.println("UpFileToolé€šç”¨æ–‡ä»¶ä¸Šä¼ å·¥å…·ç±»:");
+	    // ä¸Šä¼ é…ç½®
 	    final int MEMORY_THRESHOLD   = 1024 * 1024 * 5;  // 5MB
 	    final int MAX_FILE_SIZE      = 1024 * 1024 * 40; // 40MB
 	    final int MAX_REQUEST_SIZE   = 1024 * 1024 * 50; // 50MB
-//	    	ÎÄ¼şÃû£ºĞÕÃû+ÓÊÏä	    	
+//	    	æ–‡ä»¶åï¼šå§“å+é‚®ç®±	    	
 
-	        // ÅäÖÃÉÏ´«²ÎÊı
+	        // é…ç½®ä¸Šä¼ å‚æ•°
 	        DiskFileItemFactory factory = new DiskFileItemFactory();
-	        // ÉèÖÃÄÚ´æÁÙ½çÖµ - ³¬¹ıºó½«²úÉúÁÙÊ±ÎÄ¼ş²¢´æ´¢ÓÚÁÙÊ±Ä¿Â¼ÖĞ
+	        // è®¾ç½®å†…å­˜ä¸´ç•Œå€¼ - è¶…è¿‡åå°†äº§ç”Ÿä¸´æ—¶æ–‡ä»¶å¹¶å­˜å‚¨äºä¸´æ—¶ç›®å½•ä¸­
 	        factory.setSizeThreshold(MEMORY_THRESHOLD);
-	        // ÉèÖÃÁÙÊ±´æ´¢Ä¿Â¼
+	        // è®¾ç½®ä¸´æ—¶å­˜å‚¨ç›®å½•
 	        factory.setRepository(new File(System.getProperty("java.io.tmpdir")));	 
 	        ServletFileUpload upload = new ServletFileUpload(factory);	         
-	        // ÉèÖÃ×î´óÎÄ¼şÉÏ´«Öµ¡¢×î´óÇëÇóÖµ (°üº¬ÎÄ¼şºÍ±íµ¥Êı¾İ)¡¢ÖĞÎÄ´¦Àí
+	        // è®¾ç½®æœ€å¤§æ–‡ä»¶ä¸Šä¼ å€¼ã€æœ€å¤§è¯·æ±‚å€¼ (åŒ…å«æ–‡ä»¶å’Œè¡¨å•æ•°æ®)ã€ä¸­æ–‡å¤„ç†
 	        upload.setFileSizeMax(MAX_FILE_SIZE);	         
 	        upload.setSizeMax(MAX_REQUEST_SIZE);        
 	        upload.setHeaderEncoding("UTF-8"); 
 	        
 	        String uploadPath="null";
-	        // Õâ¸öÂ·¾¶Ïà¶Ôµ±Ç°Ó¦ÓÃµÄÄ¿Â¼
-//	       	 ÓÃ»§Í·Ïñ
+	        // è¿™ä¸ªè·¯å¾„ç›¸å¯¹å½“å‰åº”ç”¨çš„ç›®å½•
+//	       	 ç”¨æˆ·å¤´åƒ
 	        if (FileType.equals("UserPortrait")) {
 	        	uploadPath = "C:" + File.separator+"upImage"+ File.separator+"upUserImg"+File.separator;
 			} else if(FileType.equals("aa")){
 
 			}
 	        
-	        // Èç¹ûÄ¿Â¼²»´æÔÚÔò´´½¨
+	        // å¦‚æœç›®å½•ä¸å­˜åœ¨åˆ™åˆ›å»º
 	        File uploadDir = new File(uploadPath);
 	        if (!uploadDir.exists()) {
 	            uploadDir.mkdir();
 	        }	        
 	        int i=-2;
 	        try {
-// 				½âÎöÇëÇóµÄÄÚÈİÌáÈ¡ÎÄ¼şÊı¾İ
-//	        	ºöÂÔ¾¯¸æ»ò´íÎóĞÅÏ¢
+// 				è§£æè¯·æ±‚çš„å†…å®¹æå–æ–‡ä»¶æ•°æ®
+//	        	å¿½ç•¥è­¦å‘Šæˆ–é”™è¯¯ä¿¡æ¯
 //	            @SuppressWarnings("unchecked")
 	            List<FileItem> formItems = upload.parseRequest(request);
 	            
@@ -213,42 +218,68 @@ public class Model {
 	            	
 	            	int j=1;
 
-	                // µü´ú±íµ¥Êı¾İ
+	                // è¿­ä»£è¡¨å•æ•°æ®
 	                for (FileItem item : formItems) {	       
 	                	
-	                	 System.out.println("²ÎÊıjµÄÖµ£º-2Î»ÖÃ"+j);
-	                	// ´¦Àí²»ÔÚ±íµ¥ÖĞµÄ×Ö¶Î
+	                	 System.out.println("å‚æ•°jçš„å€¼ï¼š-2ä½ç½®"+j);
+	                	// å¤„ç†ä¸åœ¨è¡¨å•ä¸­çš„å­—æ®µ
 	                    if (!item.isFormField()) {
 	                    	
-//	                    	»ñÈ¡ÉÏ´«ÎÄ¼şÃû,FormatNameÎªÎÄ¼ş¸ñÊ½
+//	                    	è·å–ä¸Šä¼ æ–‡ä»¶å,FormatNameä¸ºæ–‡ä»¶æ ¼å¼
 	                    	String fileFormat=item.getName();
-	                    	//FormatName´øµã£»FormatName02²»´øµã
+	                    	//FormatNameå¸¦ç‚¹ï¼›FormatName02ä¸å¸¦ç‚¹
 	                    	String FormatName = fileFormat.substring(fileFormat.lastIndexOf("."));
 	                    	String FormatName02 = fileFormat.substring(fileFormat.lastIndexOf(".")+1);
 	                    	
 	                        String filePath = uploadPath + UserMail+User_TureName+"000"+j+FormatName;
 	                        File storeFile = new File(filePath);                                           
-	                        // ÔÚ¿ØÖÆÌ¨Êä³öÎÄ¼şµÄÉÏ´«Â·¾¶                     
-	                        System.out.println("ÉÏ´«µØÖ·£º"+filePath);
-	                        // ±£´æÎÄ¼şµ½Ó²ÅÌ
+	                        // åœ¨æ§åˆ¶å°è¾“å‡ºæ–‡ä»¶çš„ä¸Šä¼ è·¯å¾„                     
+	                        System.out.println("ä¸Šä¼ åœ°å€ï¼š"+filePath);
+	                        // ä¿å­˜æ–‡ä»¶åˆ°ç¡¬ç›˜
 	                        item.write(storeFile);
 	                        i=1;    
 	                        
-	                        System.out.println("²ÎÊıjµÄÖµ£º"+j);
+	                        System.out.println("å‚æ•°jçš„å€¼ï¼š"+j);
                  	                        
 	                    }
-		                    System.out.println("²ÎÊıjµÄÖµ02Î»ÖÃ£º"+j);
+		                    System.out.println("å‚æ•°jçš„å€¼02ä½ç½®ï¼š"+j);
 		                    j=j+1;
 	                }
-               //´«Èësql,´«Èë00²»Ö´ĞĞ     
+               //ä¼ å…¥sql,ä¼ å…¥00ä¸æ‰§è¡Œ     
                   if (sql.length()>5) {
 						DB.alter(sql);
 					}              
 	            }
 	        } catch (Exception ex) {
-	        	System.err.println("ÎÄ¼şÉÏ´«Ä£¿é-´íÎóÏêÇé£º"+ex.getMessage());
+	        	System.err.println("æ–‡ä»¶ä¸Šä¼ æ¨¡å—-é”™è¯¯è¯¦æƒ…ï¼š"+ex.getMessage());
 	            i=-1;
 	        }  
     return i;
+	}
+	
+//	Base64è½¬æ–‡ä»¶
+	public static boolean GenerateImage(String imgStr, String imgFilePath) {// å¯¹å­—èŠ‚æ•°ç»„å­—ç¬¦ä¸²è¿›è¡ŒBase64è§£ç å¹¶ç”Ÿæˆå›¾ç‰‡
+		
+		if (imgStr == null) // å›¾åƒæ•°æ®ä¸ºç©º
+		 return false;
+		BASE64Decoder decoder = new BASE64Decoder();
+	    try{
+		    // Base64è§£ç 
+		      byte[] bytes = decoder.decodeBuffer(imgStr);
+		      for (int i = 0; i < bytes.length; ++i) {
+		    	  if (bytes[i] < 0) {// è°ƒæ•´å¼‚å¸¸æ•°æ®
+		    		  bytes[i] += 256;
+		    	  }
+		      }
+		      // ç”Ÿæˆjpegå›¾ç‰‡
+			OutputStream out = new FileOutputStream(imgFilePath);
+			out.write(bytes);
+			out.flush();
+			out.close();
+			return true;
+	    }catch (Exception e) {
+	    	return false;
+		}
+ 
 	}
 }

@@ -12,21 +12,30 @@ public class School_model {
 	private int Founded_time;
 	private String OperationState;
 	private String School_system;
-	private String Tuition;
+	private String Tuition01;
+	private String Tuition02;
+	private String Tuition03;
+	private String Tuition04;
+	private String TuitionHigh;
+	
 	private String Website;
 	private String Telephone;
-	private String Un01;
 	private int Inter_Course_Founded_time;
 	private String Course;
 	private String Authentication;
 	private String Course_evaluation;
-	private int Student_Num;
+
+	private int Student_Num_All;
+	private int Student_Num01;
+	private int Student_Num02;
+	private int Student_Num03;
+	private int Student_Num04;
+	
 	private int Student_Capacity;
 	private int Graduated_Stu_Num;
 	private String Stu_Dominant_nationality;
 	private String Stu_Year_Investment;
 	private String Club_Num;
-	private String Un02;
 	private String President_Country;
 	private int Staff_Num;
 	private int Teacher_Num;
@@ -35,7 +44,6 @@ public class School_model {
 	private String Teacher_Retention;
 	private String Teacher_Salary;
 	private String Teacher_Stu_ratio;
-	private String Un03;
 	private String Covered_Area;
 	private String Built_Area;
 	private String Hardware;
@@ -121,13 +129,39 @@ public class School_model {
 	}
 	public void setSchool_system(String school_system) {
 		this.School_system = school_system;
+	}	
+	
+	public String getTuition01() {
+		return Tuition01;
 	}
-	public String getTuition() {
-		return Tuition;
+	public void setTuition01(String tuition01) {
+		this.Tuition01 = tuition01;
 	}
-	public void setTuition(String tuition) {
-		this.Tuition = tuition;
+	public String getTuition02() {
+		return Tuition02;
 	}
+	public void setTuition02(String tuition02) {
+		this.Tuition02 = tuition02;
+	}
+	public String getTuition03() {
+		return Tuition03;
+	}
+	public void setTuition03(String tuition03) {
+		this.Tuition03 = tuition03;
+	}
+	public String getTuition04() {
+		return Tuition04;
+	}
+	public void setTuition04(String tuition04) {
+		this.Tuition04 = tuition04;
+	}
+	public String getTuitionHigh() {
+		return TuitionHigh;
+	}
+	public void setTuitionHigh(String tuitionHigh) {
+		this.TuitionHigh = tuitionHigh;
+	}
+	
 	public String getWebsite() {
 		return Website;
 	}
@@ -141,12 +175,7 @@ public class School_model {
 		this.Telephone = telephone;
 	}
 	
-	public String getUn01() {
-		return Un01;
-	}
-	public void setUn01(String un01) {
-		this.Un01 = un01;
-	}
+
 	public int getInter_Course_Founded_time() {
 		return Inter_Course_Founded_time;
 	}
@@ -171,12 +200,38 @@ public class School_model {
 	public void setCourse_evaluation(String course_evaluation) {
 		this.Course_evaluation = course_evaluation;
 	}
-	public int getStudent_Num() {
-		return Student_Num;
+	
+	public int getStudent_Num_All() {
+		return Student_Num_All;
 	}
-	public void setStudent_Num(int student_Num) {
-		this.Student_Num = student_Num;
+	public void setStudent_Num_All(int student_Num_All) {
+		this.Student_Num_All = student_Num_All;
 	}
+	public int getStudent_Num01() {
+		return Student_Num01;
+	}
+	public void setStudent_Num01(int student_Num01) {
+		this.Student_Num01 = student_Num01;
+	}
+	public int getStudent_Num02() {
+		return Student_Num02;
+	}
+	public void setStudent_Num02(int student_Num02) {
+		this.Student_Num02 = student_Num02;
+	}
+	public int getStudent_Num03() {
+		return Student_Num03;
+	}
+	public void setStudent_Num03(int student_Num03) {
+		this.Student_Num03 = student_Num03;
+	}
+	public int getStudent_Num04() {
+		return Student_Num04;
+	}
+	public void setStudent_Num04(int student_Num04) {
+		this.Student_Num04 = student_Num04;
+	}
+		
 	public int getStudent_Capacity() {
 		return Student_Capacity;
 	}
@@ -208,12 +263,7 @@ public class School_model {
 		this.Club_Num = club_Num;
 	}
 
-	public String getUn02() {
-		return Un02;
-	}
-	public void setUn02(String un02) {
-		this.Un02 = un02;
-	}
+
 	public String getPresident_Country() {
 		return President_Country;
 	}
@@ -226,12 +276,14 @@ public class School_model {
 	public void setStaff_Num(int staff_Num) {
 		this.Staff_Num = staff_Num;
 	}
+	
 	public int getTeacher_Num() {
 		return Teacher_Num;
 	}
 	public void setTeacher_Num(int teacher_Num) {
 		this.Teacher_Num = teacher_Num;
 	}
+	
 	public int getForeign_Teacher_num() {
 		return Foreign_Teacher_num;
 	}
@@ -261,13 +313,6 @@ public class School_model {
 	}
 	public void setTeacher_Stu_ratio(String teacher_Stu_ratio) {
 		this.Teacher_Stu_ratio = teacher_Stu_ratio;
-	}
-
-	public String getUn03() {
-		return Un03;
-	}
-	public void setUn03(String un03) {
-		this.Un03 = un03;
 	}
 	
 	public String getCovered_Area() {
