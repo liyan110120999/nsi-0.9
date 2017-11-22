@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import model.Model;
+
 @WebServlet("/testapi")
 public class testapi extends HttpServlet{
 	
@@ -63,7 +65,31 @@ public class testapi extends HttpServlet{
 	    	String Callback = request.getParameter("Callback");//客户端请求参数
 	    	response.setContentType("text/html;charset=UTF-8");  
 	    	response.getWriter().write(Callback+"("+jsonList+")");
-			
+		
+//	    	测试微信扫码
+		}else if(whereFrom.equals("testWechat")){
+	    	
+			System.out.println("test_api:WF======testWechat");	
+	    	Gson gson = new Gson();   	
+	    	
+	    	String WechatCode=request.getParameter("WechatCode");
+	    	String appid ="wxeec22e42c2dd116e";
+	    	String secret ="bcd85602ec69d29a2334221378185dfc";
+	    	
+	    	String requestUrl ="https://api.weixin.qq.com/sns/oauth2/access_token?appid="+appid+"&secret="+secret+"&code="+WechatCode+"&grant_type=authorization_code";
+//	    	微信扫码实现函数 ：通过code 获取 微信 ID
+	    	String aaa= Model.WechatHttpRequest(requestUrl, "POST", "");
+//	    	判断用户表，
+//	    	有没有此ID，返回结果，（-2,-1,1）
+	    	
+	    	
+	    	System.out.println("输出值："+aaa);
+	    	String jsonList ="{msg:success}";
+	    	
+	    	String Callback = request.getParameter("Callback");//客户端请求参数
+	    	response.setContentType("text/html;charset=UTF-8");  
+	    	response.getWriter().write(Callback+"("+jsonList+")");	
+	    	
 		}else{
 			System.out.println("NO aaa");
 		}

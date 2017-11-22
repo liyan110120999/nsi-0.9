@@ -141,12 +141,21 @@ public class School_api extends HttpServlet{
 						+ "'"+Authentication+"','"+Course_evaluation+"','"+Student_Num_All+"','"+Student_Num01+"','"+Student_Num02+"','"+Student_Num03+"','"+Student_Num04+"','"+Student_Capacity+"','"+Graduated_Stu_Num+"','"+Stu_Dominant_nationality+"','"+Stu_Year_Investment+"','"+Club_Num+"','"+President_Country+"','"+Staff_Num+"','"+Teacher_Num+"','"+Foreign_Teacher_num+"','"+Teacher_Year_Investment+"',"
 						+ "'"+Teacher_Retention+"','"+Teacher_Salary+"','"+Teacher_Stu_ratio+"','"+Covered_Area+"','"+Built_Area+"','"+Hardware+"','"+Investment+"','"+Remark+"','"+Load_People+"','"+SubmitDate+"','"+VerifySign+"')";			
 			 }else{
+				 
+				 
+				 
+//				 修改过
+				 
+				 
 //				内部员工免审核
 				sql="INSERT INTO NSI_SCHOOL_data (School_name,School_EnglishName,School_properties,"
 						+ "Areas,Areas02,Areas03,Founded_time,OperationState,School_system,Tuition01,Tuition02,Tuition03,Tuition04,TuitionHigh,Website,Telephone,Inter_Course_Founded_time,Course,"
-				 		+ "Authentication,Course_evaluation,Student_Num,Student_Capacity,Graduated_Stu_Num,Stu_Dominant_nationality,Stu_Year_Investment,Club_Num,President_Country,Staff_Num,Teacher_Num,Foreign_Teacher_num,Teacher_Year_Investment,"
+						+ "Authentication,Course_evaluation,Student_Num_All,Student_Num01,Student_Num02,Student_Num03,Student_Num04,Student_Capacity,Graduated_Stu_Num,Stu_Dominant_nationality,Stu_Year_Investment,Club_Num,President_Country,Staff_Num,Teacher_Num,Foreign_Teacher_num,Teacher_Year_Investment,"
 				 		+ "Teacher_Retention,Teacher_Salary,Teacher_Stu_ratio,Covered_Area,Built_Area,Hardware,Investment,Remark,Load_People,Load_Time,VerifySign) "
-				 					 		
+				 	
+//				 		+ "Authentication,Course_evaluation,Student_Num,Student_Capacity,Graduated_Stu_Num,Stu_Dominant_nationality,Stu_Year_Investment,Club_Num,President_Country,Staff_Num,Teacher_Num,Foreign_Teacher_num,Teacher_Year_Investment,"
+//				 		+ "Teacher_Retention,Teacher_Salary,Teacher_Stu_ratio,Covered_Area,Built_Area,Hardware,Investment,Remark,Load_People,Load_Time,VerifySign) "
+//				 					 		
 						+ "VALUES ('"+School_name+"','"+School_EnglishName+"','"+School_properties+"',"
 						+ "'"+Areas+"','"+Areas02+"','"+Areas03+"','"+Founded_time+"','"+OperationState+"','"+School_system+"','"+Tuition01+"','"+Tuition02+"','"+Tuition03+"','"+Tuition04+"','"+TuitionHigh+"','"+Website+"','"+Telephone+"','"+Inter_Course_Founded_time+"','"+Course+"',"
 						+ "'"+Authentication+"','"+Course_evaluation+"','"+Student_Num_All+"','"+Student_Num01+"','"+Student_Num02+"','"+Student_Num03+"','"+Student_Num04+"','"+Student_Capacity+"','"+Graduated_Stu_Num+"','"+Stu_Dominant_nationality+"','"+Stu_Year_Investment+"','"+Club_Num+"','"+President_Country+"','"+Staff_Num+"','"+Teacher_Num+"','"+Foreign_Teacher_num+"','"+Teacher_Year_Investment+"',"
@@ -622,12 +631,14 @@ public class School_api extends HttpServlet{
 		
 					  	
 //	    	测试echart数据 省份学校数量查询
-//	    	待修改
-		}else if(whereFrom.equals("testEchart")){	
+//			EchartSchoolNum
+		}else if(whereFrom.equals("EchartSchoolNum")){	
 			
-			System.out.println("school api:WF======testEchart");		
+			System.out.println("school_api:WF======EchartSchoolNum");		
 	    	Gson gson = new Gson();   	
-	    	String City_searchKey=request.getParameter("City_searchKey");			
+	    	String City_searchKey=request.getParameter("City_searchKey");
+	    	String option=request.getParameter("option");
+
 			String sqlcount=null;
 			int countAllRS = 0;
 			String[] china=	{"北京", "上海", "天津", "重庆", "浙江", "江苏", "广东", "福建", "湖南", "湖北", "辽宁", 
@@ -635,13 +646,34 @@ public class School_api extends HttpServlet{
 				"贵州", "安徽", "江西", "云南", "内蒙古", "西藏", "广西", "宁夏", "海南", "香港", "澳门", "台湾"};
 			
 			List<School_Areas_model> list=new ArrayList<School_Areas_model>();
-		
+			
 			for(int i = 0; i<china.length; i++){
-				sqlcount="SELECT * from NSI_SCHOOL_data WHERE Areas like '%"+china[i]+"%' order by CONVERT(School_name USING gb2312)";					
-				countAllRS=DB.count(sqlcount);
 				
-				School_Areas_model School_Areas= new School_Areas_model();
+				switch(option){
+					case "全部":
+						sqlcount="SELECT * from NSI_SCHOOL_data WHERE Areas like '%"+china[i]+"%' order by CONVERT(School_name USING gb2312)";
+					    break;
+					case "幼儿园":
+						sqlcount="SELECT * from NSI_SCHOOL_data WHERE Areas like '%"+china[i]+"%' AND `School_system` like '%幼儿园%' order by CONVERT(School_name USING gb2312) ";
+					    break;
+					case "小学":
+						sqlcount="SELECT * from NSI_SCHOOL_data WHERE Areas like '%"+china[i]+"%' AND `School_system` like '%小学%' order by CONVERT(School_name USING gb2312) ";
+					    break;
+					case "初中":
+						sqlcount="SELECT * from NSI_SCHOOL_data WHERE Areas like '%"+china[i]+"%' AND `School_system` like '%初中%' order by CONVERT(School_name USING gb2312) ";
+					    break;
+					case "高中":
+						sqlcount="SELECT * from NSI_SCHOOL_data WHERE Areas like '%"+china[i]+"%' AND `School_system` like '%高中%' order by CONVERT(School_name USING gb2312) ";
+					    break;
+		//			    默认或无信息
+					default:
+						System.out.println("default"); 
+						sqlcount="SELECT * from NSI_SCHOOL_data WHERE Areas like '%"+china[i]+"%' order by CONVERT(School_name USING gb2312) ";
+					    break;
+				}
 				
+				countAllRS=DB.count(sqlcount);			
+				School_Areas_model School_Areas= new School_Areas_model();		
 				School_Areas.setName(china[i]);
 				School_Areas.setValue(countAllRS);
 

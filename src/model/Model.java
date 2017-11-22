@@ -1,15 +1,22 @@
 package model;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.ConnectException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.TrustManager;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,12 +24,23 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClients;
 
+import com.aliyuncs.http.HttpResponse;
+import com.google.gson.Gson;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 import model.dbutil.Dbconn;
 import people.DB;
 import sun.misc.BASE64Decoder;
+
+
 import entity.User;
 
 public class Model {
@@ -282,4 +300,134 @@ public class Model {
 		}
  
 	}
+	
+//	微信登录方法：通过code获取 微信用户ID
+//	public static  int getWeiXinAccessToken(String appid,String secret)  
+//    {  
+//		int i=0;
+//		 String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=公众号的appid&secret=公众号的appsecret&code="+ code + "&grant_type=authorization_code";
+//        net.sf.json.JSONObject wxUser= WeixinUtil.httpRequest(url, "POST","");
+//        //3. 获取json数据中的openid
+//        openid = wxUser.getString("openid");return null;
+		
+		
+//		apache官网的方法
+//		 CloseableHttpClient httpclient = HttpClients.createDefault();
+//	        try{
+////	            String url = "http://www.baidu.com";
+//	            String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+appid+"&secret="+secret;  
+//	            HttpGet httpGet = new HttpGet(url);
+//	            System.out.println("executing request " + httpGet.getURI());
+//	            
+//	            ResponseHandler<String> responseHandler = new ResponseHandler<String>(){
+//	                public String handleResponse(final HttpResponse response) throws ClientProtocolException,IOException{
+//	                    int status = response.getStatusLine().getStatusCode();
+//	                    if (status >= 200 && status < 300){
+//	                        HttpEntity entity = response.getEntity();
+//	                        return entity !=null ? EntityUtils.toString(entity) : null;
+//	                    }else{
+//	                        throw new ClientProtocolException("Unexpected response status: " + status);
+//	                    }
+//	                }
+//	            };
+//	            String responseBody = httpclient.execute(httpGet,responseHandler);
+//	            System.out.println("-------------------------------------------");
+//	            System.out.println(responseBody);
+//	            System.out.println("-------------------------------------------");
+//	        }finally{
+//	            httpclient.close();
+//	        }
+        
+		
+//	        try  
+//	        {  
+//	            String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+appid+"&secret="+secret;  
+//	            @SuppressWarnings("deprecation")
+//				HttpClient httpclient = new DefaultHttpClient();
+//	//            HttpClient httpClient = new HttpClient();  
+//	            GetMethod getMethod = new GetMethod(url);  
+//	            int execute = httpClient.executeMethod(getMethod);  
+//	            System.out.println("execute:"+execute);  
+//	            String getResponse = getMethod.getResponseBodyAsString();  
+//	            getAccessTokenRsp.setAccessToken(getResponse);  
+//	        }  
+//	        catch (IOException e)  
+//	        {  	           
+//	            e.printStackTrace();  
+//	        }  
+//
+//        return i;  
+//    }  
+	
+	
+//	微信扫码依赖方法
+	
+//	未完成
+	public static String WechatHttpRequest(String requestUrl, String requestMethod, String outputStr) {
+		String WechatId = null;
+		
+        StringBuffer buffer = new StringBuffer();
+        try {
+
+            URL url = new URL(requestUrl);
+            HttpsURLConnection httpUrlConn = (HttpsURLConnection) url.openConnection();
+            httpUrlConn.setDoOutput(true);
+            httpUrlConn.setDoInput(true);
+            httpUrlConn.setUseCaches(false);
+            // 设置请求方式（GET/POST）
+            httpUrlConn.setRequestMethod(requestMethod);
+
+            if ("GET".equalsIgnoreCase(requestMethod))
+                httpUrlConn.connect();
+
+            // 当有数据需要提交时
+            if (null != outputStr) {
+                OutputStream outputStream = httpUrlConn.getOutputStream();
+                // 注意编码格式，防止中文乱码
+                outputStream.write(outputStr.getBytes("UTF-8"));
+                outputStream.close();
+            }
+
+            // 将返回的输入流转换成字符串
+            InputStream inputStream = httpUrlConn.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+            String str = null;
+            while ((str = bufferedReader.readLine()) != null) {
+                buffer.append(str);
+            }
+            bufferedReader.close();
+            inputStreamReader.close();
+            // 释放资源
+            inputStream.close();
+            inputStream = null;
+            httpUrlConn.disconnect();
+            
+            Gson gson = new Gson();   	
+            String WechatJson =gson.toJson(buffer.toString());
+            
+            System.out.println(WechatJson);
+            System.out.println("字符截取序号"+WechatJson.indexOf("openid")+" 到 "+WechatJson.indexOf("scope"));
+            
+            WechatId = WechatJson.substring(WechatJson.indexOf("openid")+11,WechatJson.indexOf("scope")-5);
+//            str.substring(str.indexOf(">")+1, str.lastIndexOf("<"));
+            Gson gson02 = new Gson();
+//             result = gson02.fromJson(jsonData, type);
+//            Person person = GsonUtil.parseJsonWithGson(jsonData, Person.class);
+//            WechatId=WechatJson.getString("name");
+//            Gson aa =gson.toJson(buffer.toString());
+            System.out.println("-------------------------------------------------");
+            System.out.println(WechatJson);
+            System.out.println("-------------------------------------------------------");
+            System.out.println("i am WechatId:"+WechatId);
+
+        } catch (ConnectException ce) {
+            System.out.println(ce);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return WechatId;
+    }
+	
 }

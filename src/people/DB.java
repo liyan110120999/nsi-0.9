@@ -81,8 +81,7 @@ public class DB {
             conn.close();
 		}
 		catch(Exception e)
-		{
-			System.out.println("DB.java:插入：插入sql异常");	
+		{			
 			System.out.println("DB.java:插入：--------------------------------可能信息丢失---插入sql异常-------------------------");	
 			e.printStackTrace();
 		}
