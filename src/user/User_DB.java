@@ -34,6 +34,7 @@ public class User_DB {
 				user.setUser_phone(rs.getString("User_phone"));
 				user.setUser_score(rs.getString("User_score"));
 				user.setLoad_time(rs.getString("Load_time"));
+				user.setWechatId(rs.getString("WechatId"));
 //				Î´ÍêÕû
 
 				list.add(user);

@@ -358,6 +358,50 @@ public class User_api extends HttpServlet{
 			    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
 			    	response.setContentType("text/html;charset=UTF-8");  
 			    	response.getWriter().write(Callback+"("+back+")");
+				
+//			    	微信绑定登录
+				}else if(whereFrom.equals("WechatBinding")){
+						
+//						1、验证用户密码信息， 2、微信ID插入数据库
+						String name = request.getParameter("username");
+						String pwd = request.getParameter("pwd");
+						String WechatId = request.getParameter("WechatId");
+						
+						Model model=new Model();
+						User user=new User();
+//						默认值为-2 表示没有该用户
+						int member_sign=-2;
+						int UserVerifyCode=000000;
+						String User_TureName="空";
+//						如果用户名,密码都通过，			
+						if(model.checkUser(name, pwd)){									
+//							获取用户标志位
+							member_sign=model.queryByName(name).getMember_sign();										
+							UserVerifyCode=name.length()*member_sign+987654;							
+							User_TureName =model.queryByName(name).getUser_TureName();
+							
+//							UPDATE NSI_SCHOOL_data SET School_name ='"+School_name+"'	
+						//							插入数据库
+							String sql="UPDATE nsi_user SET WechatId ='"+WechatId+"' where UserName='"+name+"'; ";
+							DB.alter(sql);
+							
+//						账号密码错误
+						}else{
+							System.out.println("User_api:密码校验错误");
+							UserVerifyCode=0;
+							User_TureName="-1";
+						}
+
+						Gson gson = new Gson();   	
+				
+						String back="{\"member_sign\":\""+member_sign+"\","
+									+ "\"username\":\""+name+"\","
+									+ "\"User_TureName\":\""+User_TureName+"\","
+									+ "\"UserVerifyCode\":\""+UserVerifyCode+"\"}";
+
+				    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
+				    	response.setContentType("text/html;charset=UTF-8");  
+				    	response.getWriter().write(Callback+"("+back+")");
 				    	
 				    	
 //			    	临时接口：删除测试用邮箱账号 1453485414 

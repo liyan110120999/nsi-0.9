@@ -411,12 +411,9 @@ public class Model {
             System.out.println("字符截取序号"+WechatJson.indexOf("openid")+" 到 "+WechatJson.indexOf("scope"));
             
             WechatId = WechatJson.substring(WechatJson.indexOf("openid")+11,WechatJson.indexOf("scope")-5);
-//            str.substring(str.indexOf(">")+1, str.lastIndexOf("<"));
+
             Gson gson02 = new Gson();
-//             result = gson02.fromJson(jsonData, type);
-//            Person person = GsonUtil.parseJsonWithGson(jsonData, Person.class);
-//            WechatId=WechatJson.getString("name");
-//            Gson aa =gson.toJson(buffer.toString());
+
             System.out.println("-------------------------------------------------");
             System.out.println(WechatJson);
             System.out.println("-------------------------------------------------------");

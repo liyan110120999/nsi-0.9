@@ -2,6 +2,8 @@ package admin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import model.Model;
+import people.DB;
+import user.User_DB;
+import user.User_model;
 
 @WebServlet("/testapi")
 public class testapi extends HttpServlet{
@@ -70,8 +75,7 @@ public class testapi extends HttpServlet{
 		}else if(whereFrom.equals("testWechat")){
 	    	
 			System.out.println("test_api:WF======testWechat");	
-	    	Gson gson = new Gson();   	
-	    	
+	      		    	
 	    	String WechatCode=request.getParameter("WechatCode");
 	    	String appid ="wxeec22e42c2dd116e";
 	    	String secret ="bcd85602ec69d29a2334221378185dfc";
@@ -81,14 +85,45 @@ public class testapi extends HttpServlet{
 	    	String aaa= Model.WechatHttpRequest(requestUrl, "POST", "");
 //	    	判断用户表，
 //	    	有没有此ID，返回结果，（-2,-1,1）
+	    	String sql="select * from nsi_user where WechatId='"+aaa+"'; ";
+	    	int count=0;
+	    	try {
+	    		count= DB.count(sql);
+	    		System.out.println("搜索计数结束");
+			} catch (Exception e) {
+				System.out.println("未查询到该微信ID");
+			}
 	    	
 	    	
-	    	System.out.println("输出值："+aaa);
-	    	String jsonList ="{msg:success}";
+//	    	有ID 返还 用户list
+	    	if(count>=1) {
+	    		List<User_model> list = new ArrayList<User_model>();
+	    		list=User_DB.Search(sql);
+	    		Gson gson = new Gson(); 
+		    	String jsonList =gson.toJson(list);
+		    	String Callback = request.getParameter("Callback");//客户端请求参数
+		    	response.setContentType("text/html;charset=UTF-8");  
+		    	response.getWriter().write(Callback+"("+jsonList+")");
+//		  	没有ID
+	    	}else {
+	    		System.out.println("用户未绑定！！！");
+	    		String jsonList ="{msg:-1,WechatId:\""+aaa+"\"}";	    	
+		    	String Callback = request.getParameter("Callback");//客户端请求参数
+		    	response.setContentType("text/html;charset=UTF-8");  
+		    	response.getWriter().write(Callback+"("+jsonList+")");
+		    	
+		    	
+		    	System.out.println("jsonList的值："+jsonList);
+	    	}
 	    	
-	    	String Callback = request.getParameter("Callback");//客户端请求参数
-	    	response.setContentType("text/html;charset=UTF-8");  
-	    	response.getWriter().write(Callback+"("+jsonList+")");	
+	    		    	
+//	    	System.out.println("输出值："+aaa);
+//	    	String jsonList ="{msg:success}";
+//	    	
+//	    	String Callback = request.getParameter("Callback");//客户端请求参数
+//	    	response.setContentType("text/html;charset=UTF-8");  
+//	    	response.getWriter().write(Callback+"("+jsonList+")");	
+	    	System.out.println("testWechat:运行完成");
 	    	
 		}else{
 			System.out.println("NO aaa");
