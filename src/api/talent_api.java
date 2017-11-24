@@ -77,7 +77,49 @@ public class talent_api extends HttpServlet{
 	    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
 	    	response.setContentType("text/html;charset=UTF-8");  
 	    	response.getWriter().write(Callback+"("+back+")");
+	    	
+	    	
+	    	
+	    	
+	    	
+//	-----------------------------   未完成 	-----------------------------------------
+	    	
+	    	
+//	    	搜索
+		}else if(whereFrom.equals("search")){
+			System.out.println("talent_api:WF=====search");		
+		   	Gson gson = new Gson();   	
+		   		
+	    	String talent_searchKey=request.getParameter("talent_searchKey");
+	    	String sql=null;		
+			
+//			分页参数 ：第几页、每页几个。默认值：1、20；
+			Integer pageNum = request.getParameter("pageNum") != null && !request.getParameter("pageNum").equals("") ? Integer.parseInt(request.getParameter("pageNum")) : 1;
+			Integer OnePageNum = request.getParameter("OnePageNum") != null && !request.getParameter("OnePageNum").equals("") ? Integer.parseInt(request.getParameter("OnePageNum")) : 20;
+			int pageNumX=(pageNum-1)*OnePageNum;
+//			排序方式 sort
+			String SortType = request.getParameter("SortType") != null && !request.getParameter("SortType").equals("") ? request.getParameter("SortType") : "DownTime";
+			
+			
+			
+			List<School_model> list = new ArrayList<School_model>();			
+			 sql="SELECT * from NSI_SCHOOL_data WHERE CONCAT(IFNULL(`Id`,''),IFNULL(`School_name`,''),IFNULL(`School_EnglishName`,''),IFNULL(`Areas`,''),IFNULL(`Areas02`,''),IFNULL(`Founded_time`,'')) like '%"+talent_searchKey+"%' order by Load_Time DESC limit "+pageNumX+","+OnePageNum+"";
+//					
+			list=School_DB.Search(sql);
+//		
+	    	String jsonList =gson.toJson(list);
+
+	    	String Callback = request.getParameter("Callback");//客户端请求参数
+	    	response.setContentType("text/html;charset=UTF-8");  
+	    	response.getWriter().write(Callback+"("+jsonList+")");
+	    	
 	    
+	    	
+	    	
+	    	
+	    	
+	    	
+    	
 	//	   详情,传入用户邮箱，返回简历list值
 		}else if(whereFrom.equals("detail")){
 			System.out.println("talent_api:WF=====detail");		

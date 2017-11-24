@@ -22,6 +22,9 @@ public class People_api extends HttpServlet{
     	String whereFrom = null;
 		whereFrom = request.getParameter("whereFrom");
 		
+		
+//		废弃，现使用talent_api
+		
 		if(whereFrom.equals("insert")){
 			System.out.println("People_api:WF=====insert");
 //			判断用户标志

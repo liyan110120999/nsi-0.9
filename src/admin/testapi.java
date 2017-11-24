@@ -99,11 +99,28 @@ public class testapi extends HttpServlet{
 	    	if(count>=1) {
 	    		List<User_model> list = new ArrayList<User_model>();
 	    		list=User_DB.Search(sql);
-	    		Gson gson = new Gson(); 
-		    	String jsonList =gson.toJson(list);
-		    	String Callback = request.getParameter("Callback");//客户端请求参数
+		    	String UserMail=list.get(0).getName();
+		    	
+//				默认值为-2 表示没有该用户
+				int member_sign=-2;
+				int UserVerifyCode=000000;
+				String User_TureName="空";
+				Model model=new Model();								
+//					获取用户标志位
+					member_sign=model.queryByName(UserMail).getMember_sign();
+					System.out.println("User_api:用户标志位："+member_sign);						
+					UserVerifyCode=UserMail.length()*member_sign+987654;				
+					User_TureName =model.queryByName(UserMail).getUser_TureName();
+	
+				String back="{\"member_sign\":\""+member_sign+"\","
+							+ "\"username\":\""+UserMail+"\","
+							+ "\"User_TureName\":\""+User_TureName+"\","
+							+ "\"UserVerifyCode\":\""+UserVerifyCode+"\"}";
+
+		    	String Callback = request.getParameter("Callback");//客户端请求参数	  	    	
 		    	response.setContentType("text/html;charset=UTF-8");  
-		    	response.getWriter().write(Callback+"("+jsonList+")");
+		    	response.getWriter().write(Callback+"("+back+")");
+		    	
 //		  	没有ID
 	    	}else {
 	    		System.out.println("用户未绑定！！！");
