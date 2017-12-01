@@ -91,7 +91,6 @@
 	rs.close();	
 	stmt.close();	
 	conn.close();	
-	
 %>	
 
 <%
@@ -127,7 +126,7 @@
 		<img src="http://47.92.84.36:80/upImage/upMailImg/upload/mail<%=MailNum%>6.jpg" class="img-thumbnail">
 		
 		
-		<h5>图片尺寸：宽*高：120*170；格式：.jpg</h5>期刊号：<%=MailNum%>
+		<h5>图片尺寸：宽*高：170*120；格式：.jpg</h5>期刊号：<%=MailNum%>
 		<!-- 图片上传 -->
 		<div style="width:100%;height:200px; margin:auto;text-align:center;">
 			<form class="form-horizontal" action="/nsi-0.9/MailUpImg" method="post" enctype="multipart/form-data">
@@ -196,22 +195,22 @@
                     <!--链接-->
                     <div style="padding: 50px 30px 10px;float: left;margin-left:10px;">
 
-                            <div class="input-group">
+                            <div class="input-group" style="width: 359px;">
                                 <input type="text" class="form-control" name="link01" placeholder="链接1">
                             </div><br>
-                            <div class="input-group">
+                            <div class="input-group" style="width: 359px;">
                                 <input type="text" class="form-control" name="link02" placeholder="链接2">
                             </div><br>
-                            <div class="input-group">
+                            <div class="input-group" style="width: 359px;">
                                 <input type="text" class="form-control" name="link03" placeholder="链接3">
                             </div><br>
-                            <div class="input-group">
+                            <div class="input-group" style="width: 359px;">
                                 <input type="text" class="form-control" name="link04" placeholder="链接4">
                             </div><br>
-                            <div class="input-group">
+                            <div class="input-group" style="width: 359px;">
                                 <input type="text" class="form-control" name="link05" placeholder="链接5">
                             </div><br>
-                            <div class="input-group">
+                            <div class="input-group" style="width: 359px;">
                                 <input type="text" class="form-control" name="link06" placeholder="链接6">
                             </div><br>
                     </div>
@@ -221,6 +220,7 @@
                 <div class="clearfix"></div>
                 <!--按钮功能组-->
                 <div id="myButtons2" class="bs-example">
+                	<h5>若测试发送失败，请检查标题是否包含敏感关键字</h5>
                 	<button type="button" class="btn btn-primary" onclick="testSend()">测试发送</button>
                     <button type="button" class="btn btn-warning" onclick="ConfirmSend()">正式发送</button>             
                 </div>

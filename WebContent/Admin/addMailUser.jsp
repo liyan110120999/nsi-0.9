@@ -46,10 +46,11 @@
 	stmt.close();	
 	conn.close();	
 %>	
-<div style="margin: 0 auto;width: 600px;height: 500px;text-align:center;">
+<div style="margin: 0 auto;width: 400px;height: 500px;text-align:center;">
 	<h3>添加邮件联系人</h3>
-<form class="bs-example bs-example-form" action="/nsi-0.8/MailSender" method="post" role="form">
+<form class="bs-example bs-example-form" action="/nsi-0.9/MailSender" method="post" role="form">
 	<input type="text" class="form-control" name="name" placeholder="姓名">
+	<br>
 	<input type="text" class="form-control" name="email" placeholder="邮箱地址"><br>
 	
 	<input type="hidden" name="whereFrom" value="AddMailUser">

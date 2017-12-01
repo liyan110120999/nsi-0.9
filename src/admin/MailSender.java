@@ -2,10 +2,12 @@ package admin;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Properties;
 
 import javax.servlet.ServletException;
@@ -36,13 +38,16 @@ import people.DB;
 				
 				String whereFrom=request.getParameter("whereFrom");
 				
+//				正式发送邮件
 				if(whereFrom.equals("sendMail")){
+					response.setCharacterEncoding("UTF-8"); 
+					PrintWriter out = response.getWriter();					
 					try
 					{		
 						String url = "jdbc:mysql://localhost:3306/NSI_DATABASE?useSSL=true";
 						String username = "root";
 						String password = "123456";
-						String sql="SELECT * from weeklymail;";
+						String sql="SELECT * from weeklymail order by CONVERT(name USING gb2312);";
 						
 						Connection conn = DriverManager.getConnection(url,username,password);
 						Statement stmt = conn.createStatement();
@@ -69,8 +74,7 @@ import people.DB;
 						String link04=request.getParameter("link04");
 						String link05=request.getParameter("link05");
 						String link06=request.getParameter("link06");
-						
-						
+											
 						while(rs.next()){
 							try {
 								weeklyMail.sendMail(rs.getString("mail"),title01,title02,title03,title04,title05,title06,
@@ -93,24 +97,40 @@ import people.DB;
 					{
 						e.printStackTrace();
 						System.out.println("MailSender.java:sql异常或发送Mail异常");	
+						out.println("<!DOCTYPE html><html><head><meta charset=\"utf-8\"><title>文档标题</title></head><body>");
+						out.println("很遗憾，邮件发送失败，请检查标题中有无敏感字！以下是错误代码！<br>");				
+						out.println("打印异常："+e.toString());
+						out.println("</body></html>");
 					}
+					out.println("<!DOCTYPE html><html><head><meta charset=\"utf-8\"><title>文档标题</title></head><body>");
+					out.println("<h2>恭喜你，邮件全部发送成功，请联系管理员确认发送结果！</h2>");
+					out.println("</body></html>");	
+					
+					
+					
 //				增加邮件联系人
 				}else if (whereFrom.equals("AddMailUser")) {
 					
 //						获取内容
 						String name=request.getParameter("name");
 						String email=request.getParameter("email");
-	
-						String sql="INSERT INTO weeklymail(name,mail)VALUES ('"+name+"','"+email+"')";	
-						DB.Insert(sql);
 						
+//						当前时间
+							java.util.Date currentTime = new java.util.Date(); 
+					    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				    	String SubmitDate = formatter.format(currentTime);
+	
+						String sql="INSERT INTO weeklymail(name,mail,load_time)VALUES ('"+name+"','"+email+"','"+SubmitDate+"')";	
+						DB.Insert(sql);					
 						response.sendRedirect("/nsi-0.9/Admin/Mailuser_list.jsp");
+						
+						
 //				测试发送
 				}else if (whereFrom.equals("testSend")) {
-					
+					response.setCharacterEncoding("UTF-8"); 
+					PrintWriter out = response.getWriter();	
 					try
-					{		
-						
+					{							
 //						获取内容
 						String title01=request.getParameter("title01");
 						String title02=request.getParameter("title02");
@@ -132,24 +152,36 @@ import people.DB;
 						String link04=request.getParameter("link04");
 						String link05=request.getParameter("link05");
 						String link06=request.getParameter("link06");
+									
+						weeklyMail.sendMail("1453485414@qq.com",title01,title02,title03,title04,title05,title06,
+																content01,content02,content03,content04,content05,content06,
+																link01,link02,link03,link04,link05,link06);
 						
+						weeklyMail.sendMail("hemiao@xinxueshuo.cn",title01,title02,title03,title04,title05,title06,
+								content01,content02,content03,content04,content05,content06,
+								link01,link02,link03,link04,link05,link06);
 						
-			
-							weeklyMail.sendMail("1453485414@qq.com",title01,title02,title03,title04,title05,title06,
-																	content01,content02,content03,content04,content05,content06,
-																	link01,link02,link03,link04,link05,link06);
-							
-							weeklyMail.sendMail("hemiao@xinxueshuo.cn",title01,title02,title03,title04,title05,title06,
-									content01,content02,content03,content04,content05,content06,
-									link01,link02,link03,link04,link05,link06);
-							System.out.println("测试发送1453485414@qq.com");
-
+						weeklyMail.sendMail("liwei@xinxueshuo.cn",title01,title02,title03,title04,title05,title06,
+								content01,content02,content03,content04,content05,content06,
+								link01,link02,link03,link04,link05,link06);
+						
+						System.out.println("测试发送:1453485414@qq.com+何淼+李威");
 					}
 					catch(Exception e)
 					{
 						e.printStackTrace();
 						System.out.println("MailSender.java:sql异常或发送Mail异常");	
+											
+						out.println("<!DOCTYPE html><html><head><meta charset=\"utf-8\"><title>文档标题</title></head><body>");
+						out.println("很遗憾，邮件发送失败，请检查标题中有无敏感字！以下是错误代码！<br>");				
+						out.println("打印异常："+e.toString());
+						out.println("</body></html>");
+											
 					}
+					out.println("<!DOCTYPE html><html><head><meta charset=\"utf-8\"><title>文档标题</title></head><body>");
+					out.println("<h2>恭喜你，邮件全部发送成功，请联系管理员确认发送结果！</h2>");
+					out.println("</body></html>");				
+		
 				
 //				测试Properties
 				}else if (whereFrom.equals("testP")) {
@@ -163,11 +195,8 @@ import people.DB;
 					} catch (Exception e) {
 						e.printStackTrace(); // 输出异常信息
 					} 
-					
-					
-				
+									
 				}
-
 			}
 		}
 

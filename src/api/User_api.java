@@ -361,7 +361,7 @@ public class User_api extends HttpServlet{
 				
 //			    	微信绑定登录
 				}else if(whereFrom.equals("WechatBinding")){
-						
+						System.out.println("User_api:WF======WechatBinding");	
 //						1、验证用户密码信息， 2、微信ID插入数据库
 						String name = request.getParameter("username");
 						String pwd = request.getParameter("pwd");
